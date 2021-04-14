@@ -57,15 +57,6 @@
         app:layout_constraintTop_toBottomOf="@+id/scrollView7"
         app:layout_constraintVertical_bias="0.0">
 
-        <Button
-            android:id="@+id/button110"
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <TextView
             android:id="@+id/tv_1"
             android:layout_width="wrap_content"
@@ -79,7 +70,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView7" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_2"
@@ -103,6 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/bg_minimalist"
             android:hint="@string/masukkan_kode_verifikasi"
@@ -112,48 +104,52 @@
             android:textColorHint="#6E6C6C"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.50"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_1" />
 
-        <Button
-            android:id="@+id/btn_verifikasi"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:background="@drawable/tbl_l_btn"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:foreground="@drawable/tbl_l_btn"
-            android:text="DAPATKAN KODE"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:backgroundTint="#305031"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button110"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_2" />
-
-        <Button
-            android:id="@+id/btn_verifikasi4"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/tbl_r_btn"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:foreground="@drawable/tbl_r_btn"
-            android:text="VERIFIKASI KODE"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:backgroundTint="#305031"
+            android:orientation="horizontal"
+            android:weightSum="2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button110"
-            app:layout_constraintTop_toBottomOf="@+id/tv_2" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_2">
+
+            <Button
+                android:id="@+id/btn_verifikasi"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/tbl_l_btn"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:foreground="@drawable/tbl_l_btn"
+                android:text="DAPATKAN KODE"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:backgroundTint="#305031" />
+
+            <Button
+                android:id="@+id/btn_verifikasi4"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/tbl_r_btn"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:foreground="@drawable/tbl_r_btn"
+                android:text="VERIFIKASI KODE"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:backgroundTint="#305031" />
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -163,7 +159,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="65dp"
         android:layout_marginEnd="4dp"
         android:background="@drawable/border_dialog"
         app:layout_constraintEnd_toEndOf="parent"
@@ -178,70 +174,74 @@
             <TextView
                 android:id="@+id/tv_reg2"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="NIK"
                 android:textAlignment="viewStart"
                 android:textColor="@android:color/background_dark"
                 android:textSize="14dp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/et_reg_nik"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/et_reg_nik" />
 
             <TextView
                 android:id="@+id/tv_reg3"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="0dp"
                 android:gravity="center"
                 android:text="No. Telp"
                 android:textAlignment="viewStart"
                 android:textColor="@android:color/background_dark"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/et_reg_telp"
                 app:layout_constraintStart_toStartOf="@+id/tv_reg2"
-                app:layout_constraintTop_toBottomOf="@+id/tv_reg2" />
+                app:layout_constraintTop_toTopOf="@+id/et_reg_telp" />
 
             <EditText
                 android:id="@+id/et_reg_nik"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:background="@drawable/bg_minimalist"
                 android:drawableStart="@drawable/user"
-                android:hint="   Masukkan NIK"
+                android:drawableLeft="@drawable/user"
+                android:drawablePadding="8dp"
+                android:hint="Masukkan NIK"
                 android:inputType="textCapCharacters"
-                android:paddingLeft="15dp"
+                android:padding="8dp"
                 android:textColor="#000000"
                 android:textColorHint="#6E6C6C"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/et_reg_telp"
-                app:layout_constraintTop_toTopOf="@+id/tv_reg2"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="HardcodedText" />
 
             <EditText
                 android:id="@+id/et_reg_telp"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_minimalist"
                 android:drawableStart="@drawable/telp"
-                android:hint="   No. Telp Ex. 08xxxx"
+                android:drawableLeft="@drawable/telp"
+                android:drawablePadding="8dp"
+                android:hint="No. Telp Ex. 08xxxx"
                 android:inputType="phone"
-                android:paddingLeft="15dp"
+                android:padding="8dp"
                 android:textColor="#000000"
                 android:textColorHint="#6E6C6C"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/tv_reg3"
                 app:layout_constraintTop_toBottomOf="@+id/et_reg_nik"
                 tools:ignore="HardcodedText" />
@@ -296,7 +296,8 @@
             android:layout_marginRight="8dp"
             android:background="@drawable/bg_minimalist"
             android:drawableStart="@drawable/key"
-            android:hint="   Ulangi Kata Sandi"
+            android:hint="Ulangi Kata Sandi"
+            android:drawablePadding="8dp"
             android:inputType="textPassword|textImeMultiLine"
             android:paddingLeft="15dp"
             android:textColor="#000000"
@@ -304,7 +305,6 @@
             android:textSize="14sp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_lppass_pass2"
             app:layout_constraintTop_toBottomOf="@+id/tv_lppass_pass2"
             tools:ignore="HardcodedText" />
@@ -336,7 +336,9 @@
             android:layout_marginRight="8dp"
             android:background="@drawable/bg_minimalist"
             android:drawableStart="@drawable/key"
-            android:hint="   Masukkan Kata Sandi"
+            android:drawableLeft="@drawable/key"
+            android:hint="Masukkan Kata Sandi"
+            android:drawablePadding="8dp"
             android:inputType="textPassword|textImeMultiLine"
             android:paddingLeft="15dp"
             android:textColor="#000000"

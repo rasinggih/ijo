@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="65dp"
                 android:layout_marginEnd="4dp"
                 android:layout_marginRight="4dp"
                 android:background="@drawable/border_dialog"
@@ -288,16 +288,13 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/myPict3"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/border_dialog"
-                    android:forceDarkAllowed="false"
                     android:scaleType="fitXY"
-                    android:src="@drawable/take_image"
+                    android:src="@drawable/ic_baseline_add_photo_100"
                     app:layout_constraintStart_toStartOf="@+id/et_reg_pass2"
                     app:layout_constraintTop_toBottomOf="@+id/tv_reg"
-                    app:shapeAppearanceOverlay="@style/roundedCornersImageView"
                     tools:ignore="MissingConstraints" />
 
                 <TextView

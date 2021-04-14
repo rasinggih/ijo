@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (groupPosition == 3 && childPosition == 0) {
                     Intent intent = new Intent(MainActivity.this,
-                            Activity_Login.class);
+                            AppSetting.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     onPause();
