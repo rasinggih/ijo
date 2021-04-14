@@ -18,15 +18,15 @@
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start|top"
-        android:fitsSystemWindows="true"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="false"
         app:headerLayout="@layout/nav_header_main">
 
         <ExpandableListView
             android:id="@+id/expandableListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="@dimen/nav_header_height"
             android:background="@android:color/white"
             android:dividerHeight="0dp"
             android:groupIndicator="@null"

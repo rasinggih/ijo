@@ -6,12 +6,12 @@
 
     <TextView
         android:id="@+id/tv_groupmenu"
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="#0A1F2124"
         android:drawableStart="@drawable/next_black"
         android:gravity="center_vertical"
-        android:paddingLeft="5dp"
+        android:padding="8dp"
         android:textColor="#1f2124"
         android:textSize="14dp" />
 </LinearLayout>
