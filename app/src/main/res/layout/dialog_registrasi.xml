@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"  ?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constrainregistrasi"
+    style="@style/styleDialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border_dialog"
+    android:radius="30dp"
+    android:right="10dp"
+    android:shape="rectangle"
+    android:top="10dp"
+    app:barrierAllowsGoneWidgets="false"
+    tools:context=".frm_angkut_tbs">
+
+    <TextView
+        android:id="@+id/tv_dlg1_title"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="title"
+        android:textColor="#0C0C0C"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
+
+    <Button
+        android:id="@+id/btn_dlg1_ok"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/tbl_r_btn"
+        android:backgroundTint="@color/colorPrimary"
+        android:textAllCaps="false"
+        android:foreground="@drawable/tbl_r_btn"
+        android:text="Registrasi Baru"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn3"
+        app:layout_constraintTop_toTopOf="@+id/btn_dlg1_no" />
+
+    <Button
+        android:id="@+id/btn3"
+        android:layout_width="1dp"
+        android:layout_height="50dp"
+        android:background="@drawable/tombol"
+        android:text="Registrasi Baru"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_dlg1_no" />
+
+    <Button
+        android:id="@+id/btn_dlg1_no"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/tbl_l_btn"
+        android:backgroundTint="@color/colorPrimary"
+        android:foreground="@drawable/tbl_l_btn"
+        android:text="Registrasi Ulang"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toStartOf="@+id/btn3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_dlg1_password" />
+
+    <EditText
+        android:id="@+id/et_dlg1_niktelp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/user"
+        android:ems="10"
+        android:foregroundTint="#050505"
+        android:hint="Masukkan Nik / No. Telp"
+        android:inputType="textCapCharacters"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="@+id/tv_dlg1_title"
+        app:layout_constraintStart_toStartOf="@+id/tv_dlg1_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dlg1_title" />
+
+    <EditText
+        android:id="@+id/et_dlg1_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/key"
+        android:ems="10"
+        android:hint="Masukkan Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/et_dlg1_niktelp"
+        app:layout_constraintStart_toStartOf="@+id/et_dlg1_niktelp"
+        app:layout_constraintTop_toBottomOf="@+id/et_dlg1_niktelp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tbl_lr_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView43"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/app_name"
+            android:textColor="#2E5C30"
+            android:textSize="16sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageView14"
+            app:layout_constraintTop_toTopOf="@+id/imageView14" />
+
+        <ImageView
+            android:id="@+id/imageView14"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:foreground="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@mipmap/ic_launcher" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
