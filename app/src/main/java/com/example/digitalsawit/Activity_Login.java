@@ -2,6 +2,7 @@ package com.example.digitalsawit;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -44,6 +46,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -73,7 +76,7 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Random;
 
-public class Activity_Login extends AppCompatActivity implements PermissionCallback, ErrorCallback {
+public class Activity_Login extends AppCompatActivity {
 
     //Inisialisasi DatabaseHelper
     DatabaseHelper dbhelper;
@@ -111,7 +114,7 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
     DialogHelper dialogHelper;
     Handler handler = new Handler();
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -246,7 +249,7 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
                 imgphoto.setImageBitmap(compressedBitmap);
                 imgphoto.setVisibility(View.VISIBLE);
                 imgphoto.setBackground(null);
-                imgphoto.setForeground(null);
+                //imgphoto.setForeground(null);
                 imagedialog.setEnabled(true);
                 imgphoto.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -299,9 +302,44 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
             }
         });
 
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
-        reqPermission();
+        try {
+            if ((ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            || (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+                    || (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) ) {
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
 
+                    // You can show your dialog message here but instead I am
+                    // showing the grant permission dialog box
+                    ActivityCompat.requestPermissions(this, new String[] {
+                                    Manifest.permission.ACCESS_FINE_LOCATION,
+                                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    Manifest.permission.CAMERA,
+                                    Manifest.permission.SEND_SMS},
+                            10);
+
+                }
+                else{
+                    //Requesting permission
+                    ActivityCompat.requestPermissions(this, new String[] {
+                                    Manifest.permission.ACCESS_FINE_LOCATION,
+                                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    Manifest.permission.CAMERA,
+                                    Manifest.permission.SEND_SMS},
+                                    10);
+
+                }
+            }
+
+
+
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.LOCATION_HARDWARE}, PERMIS);
+            //reqPermission();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         tvpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -362,6 +400,7 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
                                             final String requestBody = jsonBody.toString();
                                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url_data,
                                                     new Response.Listener<String>() {
+                                                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                                                         @Override
                                                         public void onResponse(String response) {
                                                             try {
@@ -790,7 +829,7 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
                                                     imgphoto.setImageBitmap(compressedBitmap);
                                                     imgphoto.setVisibility(View.VISIBLE);
                                                     imgphoto.setBackground(null);
-                                                    imgphoto.setForeground(null);
+//                                                    imgphoto.setForeground(null);
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
@@ -844,6 +883,8 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
                 v_dlg_btn2 = "TIDAK";
                 dialogHelper.showDialogYesNo();
                 handler.postDelayed(new Runnable() {
+                    @SuppressLint("NewApi")
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void run() {
                         handler.postDelayed(this, 500);
@@ -866,7 +907,7 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
                             v_username = null;
                             imgphoto.setImageBitmap(null);
                             imgphoto.setBackground(getApplicationContext().getDrawable(R.drawable.border_dialog));
-                            imgphoto.setForeground(getApplicationContext().getDrawable(R.drawable.username));
+//                            imgphoto.setForeground(getApplicationContext().getDrawable(R.drawable.username));
 //                            Toast.makeText(getApplicationContext(),
 //                                    "Berhasil menghapus Login User",
 //                                    Toast.LENGTH_SHORT).show();
@@ -1173,7 +1214,7 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
                                     } else {
                                         if (etlppasspass.getText().toString().equals(etlppasspass2.getText().toString())) {
                                             try {
-                                                v_password_input = AESEnkrip.encrypt(etregpass2.getText().toString());
+                                                v_password_input = AESEnkrip.encrypt(etlppasspass2.getText().toString());
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -1232,7 +1273,7 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
             }
         });
 
-        StartActivity();
+        //StartActivity();
 
         //End Of onCreate
     }
@@ -1263,11 +1304,11 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
                         gambar = null;
                         imgtakephotoreg.setImageBitmap(null);
                         imgtakephotoreg.setBackground(getApplicationContext().getDrawable(R.drawable.border_dialog));
-                        imgtakephotoreg.setForeground(getApplicationContext().getDrawable(R.drawable.take_image));
+                        //imgtakephotoreg.setForeground(getApplicationContext().getDrawable(R.drawable.take_image));
                     }
                     else{
                         imgtakephotoreg.setBackground(null);
-                        imgtakephotoreg.setForeground(null);
+                        //imgtakephotoreg.setForeground(null);
                         imgtakephotoreg.setImageBitmap(selectedImage);
 
                     }
@@ -1531,41 +1572,11 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
-                .setCallback(this)
-                .setErrorCallback(this)
+                .setCallback((PermissionCallback) this)
+                .setErrorCallback((ErrorCallback) this)
                 .request(REQUEST_PERMISSIONS);
     }
 
-    @Override
-    public void onShowRationalDialog(final PermissionInterface permissionInterface, int requestCode) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("We need permissions for this app.");
-        builder.setPositiveButton("oke", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                permissionInterface.onDialogShown();
-            }
-        });
-        builder.setNegativeButton("cancel", null);
-        builder.show();
-    }
-
-    @Override
-    public void onShowSettings(final PermissionInterface permissionInterface, int requestCode) {
-
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode) {
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public void onPermissionsDenied(int requestCode) {
-        Toast.makeText(this, "Mohon Izinkan Semua", Toast.LENGTH_LONG).show();
-        reqPermission();
-    }
 
     //Function Cek Internet
     public boolean checkInternet() {

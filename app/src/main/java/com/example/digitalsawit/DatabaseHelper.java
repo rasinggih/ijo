@@ -25,7 +25,7 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, "db_ops.db", null,
-                2);
+                3);
         //fix version 205
     }
 
@@ -38,7 +38,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "position_name text, loc_code text, departmentcode text, comp_id text, " +
                 "site_id text, shiftcode varchar, deptcode varchar, divcode varchar, " +
                 "gangcode varchar, reg_rn varchar, vh_status varchar, adm_status varchar, " +
-                "isresetpassword varchar, isdeleteuser varchar, blob1 blob);");
+                "isresetpassword varchar, isdeleteuser varchar, blob1 blob, blob2 blob, blob3 blob, blob4 blob, " +
+                "blob5 blob, systemname varchar);");
 
 
         db.execSQL("CREATE TABLE tbl_pickup_data (datatype varchar, subdatatype varchar, date1 date, date2 date, date3 date, " +

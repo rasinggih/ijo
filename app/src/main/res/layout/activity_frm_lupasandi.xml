@@ -120,8 +120,10 @@
             <Button
                 android:id="@+id/btn_verifikasi"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="@drawable/tbl_l_btn"
                 android:backgroundTint="@color/colorPrimaryDark"
@@ -136,8 +138,10 @@
             <Button
                 android:id="@+id/btn_verifikasi4"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
                 android:layout_weight="1"
                 android:background="@drawable/tbl_r_btn"
                 android:backgroundTint="@color/colorPrimaryDark"

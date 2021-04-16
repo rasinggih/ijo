@@ -94,10 +94,10 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/border_dialog"
             android:backgroundTint="#E4E1E1"
-            android:foreground="@drawable/username"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/user"
             tools:ignore="MissingConstraints" />
 
         <TextView

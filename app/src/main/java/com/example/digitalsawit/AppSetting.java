@@ -52,19 +52,21 @@ public class AppSetting extends AppCompatActivity {
             profilePicture.setImageBitmap(compressedBitmap);
             profilePicture.setVisibility(View.VISIBLE);
             profilePicture.setBackground(null);
-            profilePicture.setForeground(null);
-            profilePicture.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    v_data_proses = 2;
-                    CropImage.activity(null).setGuidelines(CropImageView.Guidelines.ON).
-                            setFixAspectRatio(true).setAspectRatio(1, 1).start(AppSetting.this);
+//            profilePicture.setForeground(null);
 
-                }
-            });
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v_data_proses = 2;
+                CropImage.activity(null).setGuidelines(CropImageView.Guidelines.ON).
+                        setFixAspectRatio(true).setAspectRatio(1, 1).start(AppSetting.this);
+
+            }
+        });
 
     }
 
