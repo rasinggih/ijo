@@ -30,8 +30,8 @@ public class AppSetting extends AppCompatActivity {
     private byte[] gambar;
     int v_data_proses;
     AutoCompleteTextView acAppLanguage;
-    ImageView profilePicture, dropAppLanguage, imgInsertLogo;
-    TextView tvBgImg;
+    ImageView profilePicture, dropAppLanguage;
+    TextView tvBgImg, imgInsertLogo;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
