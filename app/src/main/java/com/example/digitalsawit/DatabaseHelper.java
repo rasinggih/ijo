@@ -214,6 +214,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean update_gambar(byte[] blob1) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("blob1", blob1);
+
+        // Insert Row
+        long insert = db.update("tbl_username", contentValues, null, null);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
     public byte[] get_gambar_user() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT blob1 FROM tbl_username;", null);

@@ -275,6 +275,7 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
             et_password.setEnabled(false);
             et_password.setVisibility(View.GONE);
             btnlogin.setText("REGISTRASI");
+            btnlogin.setVisibility(View.VISIBLE);
             tv_lupasandi.setVisibility(View.GONE);
             tv_hapususername.setVisibility(View.GONE);
             tvpass.setVisibility(View.GONE);
@@ -558,6 +559,11 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
 
 //                                                                    if(return_koneksi.equals("VALID")){
                                                                     else{
+                                                                        etregusername.setText("");
+                                                                        etregpass.setText("");
+                                                                        etregpass2.setText("");
+                                                                        imgtakephotoreg.setImageDrawable(null);
+                                                                        imgtakephotoreg.setBackgroundResource(R.drawable.ic_baseline_add_photo_100);
                                                                         url_data = "https://ntcorp.co.id/dsi/get_verificationcode.php?p_notelp="+etregtelpreg.getText().toString();
                                                                         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                                                                         JSONObject jsonBody = new JSONObject();
@@ -579,10 +585,8 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
                                                                                             else {
                                                                                                 if (return_koneksi.equals(etkodeverifikasireg.getText().toString())) {
                                                                                                     clpass.setVisibility(View.VISIBLE);
-                                                                                                    btnverifikasireg.setEnabled(false);
                                                                                                     clkodereg.setVisibility(View.GONE);
                                                                                                     btnverifikasireg.setVisibility(View.GONE);
-                                                                                                    btnverifikasi2reg.setEnabled(false);
                                                                                                     btnverifikasi2reg.setVisibility(View.GONE);
                                                                                                     etkodeverifikasireg.setEnabled(false);
                                                                                                     etregtelpreg.setEnabled(false);
@@ -869,7 +873,6 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
                             tv_lupasandi.setVisibility(View.GONE);
                             tv_hapususername.setVisibility(View.GONE);
                             tvpass.setVisibility(View.GONE);
-                            tvversion.setVisibility(View.INVISIBLE);
                             et_password.setVisibility(View.GONE);
                             imagedialog.setEnabled(false);
                         }
@@ -1279,13 +1282,6 @@ public class Activity_Login extends AppCompatActivity implements PermissionCallb
 
         if(v_data_proses == 2) {
             try {
-//                Bitmap photoCamera = (Bitmap) data.getExtras().get("data");
-//                imgtakephotoreg.setVisibility(View.VISIBLE);
-//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                photoCamera.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//                gambar = stream.toByteArray();
-//                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(gambar, 0, gambar.length);
-//                imgtakephotoreg.setImageBitmap(compressedBitmap);
                 if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                     CropImage.ActivityResult result = CropImage.getActivityResult(data);
                     if (resultCode == RESULT_OK) {
