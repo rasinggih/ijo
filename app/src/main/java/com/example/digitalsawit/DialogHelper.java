@@ -3,23 +3,31 @@ package com.example.digitalsawit;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class DialogHelper extends Dialog {
+
+
 
     public DialogHelper(Context context) {
         super(context);
     }
     //Define Object
     final Dialog dialog = new Dialog(getContext());
+    DatabaseHelper dbhelper = new DatabaseHelper(getContext());
     EditText et_text1, et_text2;
     Button btn_ok,btn_ok2, btn_no;
-    TextView tvtitle;
+    TextView tvtitle, tvjuduldialog;
+    ImageView imgdialog;
+
 
     public void showDialogRegistrasi() {
         //Inisialisasi Object
@@ -97,6 +105,29 @@ public class DialogHelper extends Dialog {
         btn_ok = dialog.findViewById(R.id.btn_dlg2_ok);
         btn_no = dialog.findViewById(R.id.btn_dlg2_no);
         tvtitle = dialog.findViewById(R.id.tv_dlg2_title);
+        tvjuduldialog = dialog.findViewById(R.id.textView43);
+        imgdialog     = dialog.findViewById(R.id.imageView14);
+        try {
+            if(dbhelper.get_tbl_username(25).equals("0")){
+                tvjuduldialog.setText("NAMA SYSTEM");
+            }
+            else {
+                tvjuduldialog.setText(dbhelper.get_tbl_username(25));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            tvjuduldialog.setText("NAMA SYSTEM");
+        }
+
+
+        try {
+            Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(1), 0, dbhelper.get_gambar_user(1).length);
+            imgdialog.setImageBitmap(compressedBitmap);
+            //imgphoto.setForeground(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         //Inisialisasi Variable Return
         Activity_Login.v_rtn_dlg_string = "";
@@ -142,6 +173,29 @@ public class DialogHelper extends Dialog {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         btn_ok = dialog.findViewById(R.id.btn_dlg4_ok);
         tvtitle = dialog.findViewById(R.id.tv_dlg4_title);
+        tvjuduldialog = dialog.findViewById(R.id.textView43);
+        imgdialog     = dialog.findViewById(R.id.imageView14);
+        try {
+            if(dbhelper.get_tbl_username(25).equals("0")){
+                tvjuduldialog.setText("NAMA SYSTEM");
+            }
+            else {
+                tvjuduldialog.setText(dbhelper.get_tbl_username(25));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            tvjuduldialog.setText("NAMA SYSTEM");
+        }
+
+
+        try {
+            Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(1), 0, dbhelper.get_gambar_user(1).length);
+            imgdialog.setImageBitmap(compressedBitmap);
+            //imgphoto.setForeground(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         //Inisialisasi Object Title/Text
         tvtitle.setText(Activity_Login.v_dlg_title);

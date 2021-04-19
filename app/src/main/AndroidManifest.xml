@@ -27,6 +27,18 @@
             android:theme="@style/Theme.DigitalSawit.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".Activity_Download"
+            android:theme="@style/Theme.DigitalSawit.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activity_Frm_Update_system"
+            android:theme="@style/Theme.DigitalSawit.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activity_Upload"
+            android:theme="@style/Theme.DigitalSawit.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity

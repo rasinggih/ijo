@@ -34,12 +34,12 @@
         android:id="@+id/scrollViewAppSetting"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="70dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@id/submitSetting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +48,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/border_dialog"
             android:orientation="vertical">
 
             <LinearLayout
@@ -67,14 +68,14 @@
                         android:id="@+id/myPictSetting"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
                         android:background="@drawable/border_dialog"
                         android:backgroundTint="#E4E1E1"
                         android:scaleType="fitXY"
                         android:src="@drawable/user"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/textView22"
+                        app:layout_constraintStart_toStartOf="@+id/textView22"
+                        app:layout_constraintTop_toBottomOf="@+id/textView22"
                         tools:ignore="MissingConstraints" />
 
                     <AutoCompleteTextView
@@ -88,25 +89,13 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/bg_minimalist"
-                        android:hint="Pilih Bahasa"
+                        android:hint="Masukkan Nama System"
                         android:padding="8dp"
                         android:textSize="14dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView16" />
-
-                    <ImageView
-                        android:id="@+id/dropAppLanguage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginRight="4dp"
-                        android:layout_marginBottom="2dp"
-                        android:background="@drawable/ic_baseline_arrow_dropdown_30"
-                        app:layout_constraintBottom_toBottomOf="@+id/acAppLanguage"
-                        app:layout_constraintEnd_toEndOf="@+id/acAppLanguage"
-                        app:layout_constraintTop_toTopOf="@+id/acAppLanguage" />
 
                     <TextView
                         android:id="@+id/textView16"
@@ -115,11 +104,22 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="16dp"
-                        android:text="Bahasa"
+                        android:text="Nama System"
                         android:textColor="#000000"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/myPictSetting" />
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="Ganti Foto Profil"
+                        android:textColor="#000000"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -138,11 +138,12 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/bg_minimalist"
-                        android:drawableEnd="@drawable/ic_baseline_image_24"
-                        android:drawableRight="@drawable/ic_baseline_image_24"
                         android:gravity="center_vertical"
                         android:hint="Masukkan Logo Anda"
-                        android:padding="6dp"
+                        android:paddingLeft="4dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="32dp"
+                        android:paddingBottom="8dp"
                         android:textColor="#000000"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -164,7 +165,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="250dp"
                             android:layout_gravity="center"
-                            android:background="@drawable/bg_digital_sawit" />
+                            android:background="@drawable/bg_digital_sawit"
+                            android:scaleType="fitXY" />
 
                         <ImageView
                             android:id="@+id/logoAplikasi"
@@ -181,6 +183,33 @@
                             android:layout_gravity="center_horizontal|bottom"
                             android:layout_marginBottom="8dp"
                             app:srcCompat="@drawable/registform" />
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="132dp"
+                            android:layout_marginRight="11dp"
+                            android:background="@drawable/user" />
+
+                        <TextView
+                            android:id="@+id/textView23"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="68dp"
+                            android:fontFamily="sans-serif-black"
+                            android:orientation="vertical"
+                            android:text="NAMA SYSTEM"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12dp"
+                            android:textStyle="bold|italic"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/myPict"
+                            app:layout_constraintVertical_bias="0.0"
+                            tools:layout_editor_absoluteX="0dp" />
+
                     </androidx.cardview.widget.CardView>
 
                     <TextView
@@ -219,15 +248,42 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
                         android:background="@drawable/bg_minimalist"
-                        android:drawableEnd="@drawable/ic_baseline_image_24"
-                        android:drawableRight="@drawable/ic_baseline_image_24"
                         android:gravity="center_vertical"
                         android:hint="Pilih Background"
-                        android:padding="7dp"
+                        android:paddingLeft="4dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="32dp"
+                        android:paddingBottom="8dp"
                         android:textColor="#000000"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="30dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="2dp"
+                        android:background="@drawable/ic_baseline_add_photo_100"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvBackgroundImg"
+                        app:layout_constraintEnd_toEndOf="@+id/tvBackgroundImg"
+                        app:layout_constraintTop_toTopOf="@+id/tvBackgroundImg"
+                        app:layout_constraintVertical_bias="0.451" />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="30dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@drawable/ic_baseline_add_photo_100"
+                        app:layout_constraintBottom_toBottomOf="@+id/imgInsertLogo"
+                        app:layout_constraintEnd_toEndOf="@+id/tvBackgroundImg"
+                        app:layout_constraintTop_toTopOf="@+id/imgInsertLogo"
+                        app:layout_constraintVertical_bias="0.451" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
@@ -238,16 +294,17 @@
     <Button
         android:id="@+id/submitSetting"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/tombol"
         android:backgroundTint="#305031"
         android:text="Simpan Pengaturan"
         android:textStyle="bold"
+        app:backgroundTint="#305031"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

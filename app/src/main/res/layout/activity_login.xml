@@ -249,7 +249,7 @@
                     app:shapeAppearanceOverlay="@style/roundedCornersImageView"
                     tools:ignore="MissingConstraints" />
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/myPict"
                     android:layout_width="100dp"
                     android:layout_height="100dp"

@@ -102,10 +102,10 @@ public class Activity_Login extends AppCompatActivity {
     Button btnlogin;
 
     //Inisialisasi ImageView
-    ImageView imgphoto, imgtakephotoreg, imagedialog;
+    ImageView imgphoto, imglogo, imgbackground, imgtakephotoreg, imagedialog;
 
     //Inisialisasi TextView
-    TextView tv_lupasandi, tv_hapususername, tvpass, tvversion, tvusername;
+    TextView tv_lupasandi, tv_hapususername, tvpass, tvversion, tvusername, tvlogo, tvnamasystem;
 
     //Inisialisasi Dialog
     Dialog dialogregistrasi, dialoglupasandi, dialog, dialoggambar;
@@ -123,6 +123,8 @@ public class Activity_Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         //Inisialisasi DatabaseHelper
         dbhelper        = new DatabaseHelper(this);
+        String str = getResources().getString(R.string.app_name);
+        str = "tes";
 
         //Inisialisasi Edittext
         et_password     = findViewById(R.id.et_password);
@@ -136,9 +138,17 @@ public class Activity_Login extends AppCompatActivity {
         tvpass          = findViewById(R.id.tv_pass3);
         tvversion       = findViewById(R.id.tvversion);
         tvusername      = findViewById(R.id.txt_username);
+        tvlogo          = findViewById(R.id.textView6);
+        tvnamasystem    = findViewById(R.id.textView2);
 
         //Inisialisasi ImageView
+
+        // blob1 = photo profil
+        // blob2 = logo
+        // blob3 = background
         imgphoto        = findViewById(R.id.myPict2);
+        imglogo         = findViewById(R.id.myPict);
+        imgbackground   = findViewById(R.id.imageView2);
 
         //Inisialisasi Dialog
         dialogHelper    = new DialogHelper(this);
@@ -234,7 +244,8 @@ public class Activity_Login extends AppCompatActivity {
         generate_version();
 
 
-        if (!dbhelper.get_tbl_username(0).equals("0")) {
+
+        if (!dbhelper.get_count_tbl_username().equals("0")) {
             tvusername.setText(dbhelper.get_tbl_username(0));
             btnlogin.setText("LOGIN");
             et_password.setEnabled(true);
@@ -244,8 +255,17 @@ public class Activity_Login extends AppCompatActivity {
             tvversion.setVisibility(View.VISIBLE);
             et_password.setVisibility(View.VISIBLE);
 
+            try{
+                tvnamasystem.setText(dbhelper.get_tbl_username(25));
+            } catch (Exception e) {
+                e.printStackTrace();
+                tvnamasystem.setText("NAMA SYSTEM");
+            }
+
+
+            // Menampilkan Photo Profile
             try {
-                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(), 0, dbhelper.get_gambar_user().length);
+                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(0), 0, dbhelper.get_gambar_user(0).length);
                 imgphoto.setImageBitmap(compressedBitmap);
                 imgphoto.setVisibility(View.VISIBLE);
                 imgphoto.setBackground(null);
@@ -255,8 +275,8 @@ public class Activity_Login extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         dialoggambar.show();
-                        Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(),  0,
-                                dbhelper.get_gambar_user().length);
+                        Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(0),  0,
+                                dbhelper.get_gambar_user(0).length);
                         imagedialog.setImageBitmap(compressedBitmap);
                         imagedialog.setBackground(null);
                         imagedialog.setVisibility(View.VISIBLE);
@@ -273,6 +293,29 @@ public class Activity_Login extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            // Menampilkan Logo
+            try {
+                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(1), 0, dbhelper.get_gambar_user(1).length);
+                imglogo.setImageBitmap(compressedBitmap);
+                imglogo.setVisibility(View.VISIBLE);
+                imglogo.setBackground(null);
+                tvlogo.setVisibility(View.GONE);
+                //imgphoto.setForeground(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(2), 0, dbhelper.get_gambar_user(2).length);
+                imgbackground.setImageBitmap(compressedBitmap);
+                imgbackground.setVisibility(View.VISIBLE);
+                imgbackground.setBackground(null);
+                //imgphoto.setForeground(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
         else {
             et_password.setEnabled(false);
@@ -288,10 +331,10 @@ public class Activity_Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    if (dbhelper.get_gambar_user()!=null) {
+                    if (dbhelper.get_gambar_user(0)!=null) {
                         dialoggambar.show();
-                        Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(), 0,
-                                dbhelper.get_gambar_user().length);
+                        Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(0), 0,
+                                dbhelper.get_gambar_user(0).length);
                         imagedialog.setImageBitmap(compressedBitmap);
                         imagedialog.setBackground(null);
                         imagedialog.setVisibility(View.VISIBLE);
@@ -869,6 +912,7 @@ public class Activity_Login extends AppCompatActivity {
                     else{
                         Intent intent = new Intent(Activity_Login.this, MainActivity.class);
                         startActivity(intent);
+                        finish();
                         et_password.setText("");
                     }
                 }
@@ -1297,7 +1341,7 @@ public class Activity_Login extends AppCompatActivity {
                     selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
                     gambar = stream1.toByteArray();
                     imagedialog.setEnabled(true);
-                    if(gambar.length>2000000){
+                    if(gambar.length>500000){
                         v_dlg_title = "Ukuran Gambar Max 2MB";
                         v_dlg_btn1 = "OK";
                         dialogHelper.showDialogInfo();
@@ -1326,9 +1370,17 @@ public class Activity_Login extends AppCompatActivity {
                 if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                     CropImage.ActivityResult result = CropImage.getActivityResult(data);
                     if (resultCode == RESULT_OK) {
-                        ((ImageView) dialogregistrasi.findViewById(R.id.myPict3)).setImageURI(result.getUri());
                         InputStream iStream =   getContentResolver().openInputStream(result.getUri());
                         gambar = getBytes(iStream);
+                        if(gambar.length>2000000){
+                            v_dlg_title = "Ukuran Gambar Terlalu Besar";
+                            v_dlg_btn1 = "OK";
+                            dialogHelper.showDialogInfo();
+                            gambar = null;
+                        }
+                        else {
+                            ((ImageView) dialogregistrasi.findViewById(R.id.myPict3)).setImageURI(result.getUri());
+                        }
 
                        // gambar = result.getUri();
                     }
@@ -1341,7 +1393,7 @@ public class Activity_Login extends AppCompatActivity {
 
     public byte[] getBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        int bufferSize = 1024;
+        int bufferSize = 512;
         byte[] buffer = new byte[bufferSize];
 
         int len = 0;

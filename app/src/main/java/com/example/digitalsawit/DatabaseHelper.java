@@ -229,13 +229,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean update_logo(byte[] blob1) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("blob2", blob1);
 
-    public byte[] get_gambar_user() {
+        // Insert Row
+        long insert = db.update("tbl_username", contentValues, null, null);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean update_background(byte[] blob1) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("blob3", blob1);
+
+        // Insert Row
+        long insert = db.update("tbl_username", contentValues, null, null);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    public byte[] get_gambar_user(int i) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT blob1 FROM tbl_username;", null);
+        Cursor cursor = db.rawQuery("SELECT blob1, blob2, blob3 FROM tbl_username;", null);
         if (cursor.getCount() > 0) {
             cursor.moveToPosition(0);
-            return cursor.getBlob(0);
+            return cursor.getBlob(i);
         } else {
             return null;
         }
@@ -259,14 +287,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
+    public boolean update_nama_system(String nama_system) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("systemname", nama_system);
+
+        // Insert Row
+        long insert = db.update("tbl_username", contentValues, null, null);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
     public String get_tbl_username(int i) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query1 = "select * from tbl_username";
-        Cursor cursor = db.rawQuery(query1, null);
+        Cursor cursor = db.rawQuery("select * from tbl_username", null);
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
             cursor.moveToPosition(0);
             return cursor.getString(i).toString();
+        } else {
+            return "0";
+        }
+    }
+
+    public String get_count_tbl_username() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select count(*) from tbl_username", null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            cursor.moveToPosition(0);
+            return cursor.getString(0).toString();
         } else {
             return "0";
         }

@@ -1,12 +1,15 @@
 package com.example.digitalsawit;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
             v_rtn_dlg_string, v_rtn_dlg_string2, v_rtn_dlg_string3, v_flag_menu, v_remarks_login;
     DialogHelper dialogHelper;
     Handler handler = new Handler();
+    View hView;
+    ImageView imglogo;
+    DatabaseHelper dbhelper;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +53,21 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("Title");
         toolbar.setSubtitle("Sub");
         toolbar.setLogo(R.drawable.ic_menu_camera);
+        dbhelper    = new DatabaseHelper(this);
         dialogHelper = new DialogHelper(this);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        hView = navigationView.getHeaderView(0);
+        imglogo = hView.findViewById(R.id.myPictSetting2);
+        try {
+            Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(1), 0, dbhelper.get_gambar_user(1).length);
+            imglogo.setImageBitmap(compressedBitmap);
+            imglogo.setVisibility(View.VISIBLE);
+            imglogo.setBackground(null);
+            //imgphoto.setForeground(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -87,9 +105,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
+                if (groupPosition == 2 && childPosition == 0) {
+                    Intent intent = new Intent(MainActivity.this,
+                            Activity_Download.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    onPause();
+                }
+
+                if (groupPosition == 2 && childPosition == 1) {
+                    Intent intent = new Intent(MainActivity.this,
+                            Activity_Upload.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    onPause();
+                }
+
                 if (groupPosition == 3 && childPosition == 0) {
                     Intent intent = new Intent(MainActivity.this,
                             AppSetting.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    onPause();
+                }
+
+                if (groupPosition == 3 && childPosition == 1) {
+                    Intent intent = new Intent(MainActivity.this,
+                            Activity_Frm_Update_system.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     onPause();
@@ -148,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
                 if (Activity_Login.v_rtn_dlg_string.equals("OK")) {
                     Activity_Login.v_rtn_dlg_string = "";
                     handler.removeCallbacks(this);
+                    Intent intent = new Intent(MainActivity.this, Activity_Login.class);
+                    startActivity(intent);
                     finish();
                 }
             }
