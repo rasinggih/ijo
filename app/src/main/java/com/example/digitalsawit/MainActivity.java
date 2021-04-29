@@ -124,21 +124,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-//                if (groupPosition == 2 && childPosition == 0) {
-//                    Intent intent = new Intent(MainActivity.this,
-//                            Activity_Download.class);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    startActivity(intent);
-//                    onPause();
-//                }
-//
-//                if (groupPosition == 2 && childPosition == 1) {
-//                    Intent intent = new Intent(MainActivity.this,
-//                            Activity_Upload.class);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    startActivity(intent);
-//                    onPause();
-//                }
+                if (groupPosition == 2 && childPosition == 0) {
+                    Intent intent = new Intent(MainActivity.this,
+                            Activity_Download.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    onPause();
+                }
+
+                if (groupPosition == 2 && childPosition == 1) {
+                    Intent intent = new Intent(MainActivity.this,
+                            Activity_Upload.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    onPause();
+                }
 
                 if (groupPosition == 3 && childPosition == 0) {
                     Intent intent = new Intent(MainActivity.this,

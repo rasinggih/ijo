@@ -112,6 +112,7 @@ public class Activity_Download extends AppCompatActivity {
         if (predefinedData.equals("theme")) {
             try {
                 clHeaderDownload.getBackground().setColorFilter(Color.parseColor(dbhelper.get_tbl_username(26)), PorterDuff.Mode.SRC_ATOP);
+                btnOkDownload.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(dbhelper.get_tbl_username(26))));
             } catch (Exception e) {
                 e.printStackTrace();
             }

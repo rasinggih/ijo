@@ -8,32 +8,29 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class Activity_Upload extends AppCompatActivity {
+public class Activity_Frm_Update_system extends AppCompatActivity {
 
     //Inisialisasi DatabaseHelper
     DatabaseHelper dbhelper;
 
-    ConstraintLayout clHeaderUpload, clBgUpload;
-    Button btnOkUpload;
-    ListView lvUpload;
+    ConstraintLayout clHeaderUpdateSystem, clBgUpdateSystem;
+    Button btnOkUpdateSystem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_frm_upload);
+        setContentView(R.layout.activity_frm_update_system);
 
         //Inisialisasi DatabaseHelper
-        dbhelper= new DatabaseHelper(this);
+        dbhelper = new DatabaseHelper(this);
 
-        clBgUpload = findViewById(R.id.clBgUpload);
-        clHeaderUpload = findViewById(R.id.clHeaderUpload);
-        btnOkUpload = findViewById(R.id.btnOkUpload);
-        lvUpload = findViewById(R.id.lvUpload);
+        clHeaderUpdateSystem = findViewById(R.id.clHeaderUpdateSystem);
+        clBgUpdateSystem = findViewById(R.id.clBgUpdateSystem);
+        btnOkUpdateSystem = findViewById(R.id.btnOkUpdateSystem);
 
         preparedUserAppData("theme");
         preparedUserAppData("bgcolor");
@@ -43,8 +40,8 @@ public class Activity_Upload extends AppCompatActivity {
     private void preparedUserAppData(String predefinedData) {
         if (predefinedData.equals("theme")) {
             try {
-                clHeaderUpload.getBackground().setColorFilter(Color.parseColor(dbhelper.get_tbl_username(26)), PorterDuff.Mode.SRC_ATOP);
-                btnOkUpload.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(dbhelper.get_tbl_username(26))));
+                clHeaderUpdateSystem.getBackground().setColorFilter(Color.parseColor(dbhelper.get_tbl_username(26)), PorterDuff.Mode.SRC_ATOP);
+                btnOkUpdateSystem.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(dbhelper.get_tbl_username(26))));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -52,7 +49,7 @@ public class Activity_Upload extends AppCompatActivity {
 
         if (predefinedData.equals("bgcolor")) {
             try {
-                clBgUpload.setBackgroundColor(Color.parseColor(dbhelper.get_tbl_username(29)));
+                clBgUpdateSystem.setBackgroundColor(Color.parseColor(dbhelper.get_tbl_username(29)));
             } catch (Exception e) {
                 e.printStackTrace();
             }
