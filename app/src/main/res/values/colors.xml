@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#215CF3</color>
+    <color name="colorPrimary">#305031</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="ivory">#FFFFF0</color>
@@ -143,4 +143,18 @@
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
     <color name="verylightgray">#f2f2f2</color>
+
+    <string-array name="themeColorHex">
+        <item>#000000</item>
+        <item>#FFFFFF</item>
+        <item>#F6AF39</item>
+        <item>#FF7979</item>
+        <item>#BCA136</item>
+        <item>#EFECEC</item>
+        <item>#3700B3</item>
+        <item>#305031</item>
+        <item>#686DE0</item>
+        <item>#30336B</item>
+        <item>#3E3E3E</item>
+    </string-array>
 </resources>

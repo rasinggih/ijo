@@ -3,10 +3,15 @@ package com.example.digitalsawit;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -14,6 +19,7 @@ import android.widget.ImageView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -39,8 +45,10 @@ public class MainActivity extends AppCompatActivity {
     DialogHelper dialogHelper;
     Handler handler = new Handler();
     View hView;
+    ConstraintLayout clnavheader;
     ImageView imglogo;
     DatabaseHelper dbhelper;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +57,29 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_menu_gallery);
-        toolbar.setTitle("Title");
-        toolbar.setSubtitle("Sub");
-        toolbar.setLogo(R.drawable.ic_menu_camera);
+        getSupportActionBar().hide();
         dbhelper    = new DatabaseHelper(this);
         dialogHelper = new DialogHelper(this);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         hView = navigationView.getHeaderView(0);
         imglogo = hView.findViewById(R.id.myPictSetting2);
+        clnavheader = hView.findViewById(R.id.clnavheader);
+
         try {
-            Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(1), 0, dbhelper.get_gambar_user(1).length);
+            clnavheader.getBackground().setColorFilter(Color.parseColor(dbhelper.get_tbl_username(26)), PorterDuff.Mode.SRC_ATOP);
+            if (Build.VERSION.SDK_INT >= 21) {
+                Window statusbar = getWindow();
+                statusbar.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                statusbar.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                statusbar.setStatusBarColor(Color.parseColor(dbhelper.get_tbl_username(26)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(0), 0, dbhelper.get_gambar_user(0).length);
             imglogo.setImageBitmap(compressedBitmap);
             imglogo.setVisibility(View.VISIBLE);
             imglogo.setBackground(null);
@@ -105,21 +124,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                if (groupPosition == 2 && childPosition == 0) {
-                    Intent intent = new Intent(MainActivity.this,
-                            Activity_Download.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    onPause();
-                }
-
-                if (groupPosition == 2 && childPosition == 1) {
-                    Intent intent = new Intent(MainActivity.this,
-                            Activity_Upload.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    onPause();
-                }
+//                if (groupPosition == 2 && childPosition == 0) {
+//                    Intent intent = new Intent(MainActivity.this,
+//                            Activity_Download.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intent);
+//                    onPause();
+//                }
+//
+//                if (groupPosition == 2 && childPosition == 1) {
+//                    Intent intent = new Intent(MainActivity.this,
+//                            Activity_Upload.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intent);
+//                    onPause();
+//                }
 
                 if (groupPosition == 3 && childPosition == 0) {
                     Intent intent = new Intent(MainActivity.this,
@@ -129,13 +148,13 @@ public class MainActivity extends AppCompatActivity {
                     onPause();
                 }
 
-                if (groupPosition == 3 && childPosition == 1) {
-                    Intent intent = new Intent(MainActivity.this,
-                            Activity_Frm_Update_system.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    onPause();
-                }
+//                if (groupPosition == 3 && childPosition == 1) {
+//                    Intent intent = new Intent(MainActivity.this,
+//                            Activity_Frm_Update_system.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intent);
+//                    onPause();
+//                }
 
                 return false;
             }
@@ -147,6 +166,10 @@ public class MainActivity extends AppCompatActivity {
         expandableListView.setAdapter(expandableListAdapter);
     }
 
+    public void openDrawer() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.openDrawer(Gravity.LEFT);
+    }
 
     @Override
     public boolean onSupportNavigateUp() {

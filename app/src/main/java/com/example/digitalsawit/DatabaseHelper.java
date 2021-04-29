@@ -25,7 +25,7 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, "db_ops.db", null,
-                3);
+                6);
         //fix version 205
     }
 
@@ -34,12 +34,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Setting awal dan User
         db.execSQL("CREATE TABLE tbl_username (username text PRIMARY KEY, password text, " +
-                "no_registration text, empcode text, no_telp text, empname text, " +
+                "no_registration text, empcode text, no_telp text, empname text, email varchar, " +
                 "position_name text, loc_code text, departmentcode text, comp_id text, " +
                 "site_id text, shiftcode varchar, deptcode varchar, divcode varchar, " +
-                "gangcode varchar, reg_rn varchar, vh_status varchar, adm_status varchar, " +
+                "gangcode varchar, reg_rn varchar, adm_status varchar, " +
                 "isresetpassword varchar, isdeleteuser varchar, blob1 blob, blob2 blob, blob3 blob, blob4 blob, " +
-                "blob5 blob, systemname varchar);");
+                "blob5 blob, systemname varchar, themecolor varchar, textcolor varchar, judulcolor varchar, bgcolor varchar);");
 
 
         db.execSQL("CREATE TABLE tbl_pickup_data (datatype varchar, subdatatype varchar, date1 date, date2 date, date3 date, " +
@@ -215,6 +215,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean update_judulcolor(String colorHex) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("judulcolor", colorHex);
+
+        // Insert Row
+        long insert = db.update("tbl_username", contentValues, null, null);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean update_basetextcolor(String colorHex) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("textcolor", colorHex);
+
+        // Insert Row
+        long insert = db.update("tbl_username", contentValues, null, null);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean update_themecolor(String colorHex) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("themecolor", colorHex);
+
+        // Insert Row
+        long insert = db.update("tbl_username", contentValues, null, null);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean update_bgcolor(String colorHex) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("bgcolor", colorHex);
+
+        // Insert Row
+        long insert = db.update("tbl_username", contentValues, null, null);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public boolean update_gambar(byte[] blob1) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -287,6 +343,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean update_username(String username) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("username", username);
+
+        // Insert Row
+        long insert = db.update("tbl_username", contentValues, null, null);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public boolean update_nama_system(String nama_system) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -302,6 +371,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean update_emailuser(String email) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("email", email);
+
+        // Insert Row
+        long insert = db.update("tbl_username", contentValues, null, null);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public String get_tbl_username(int i) {
         SQLiteDatabase db = this.getReadableDatabase();

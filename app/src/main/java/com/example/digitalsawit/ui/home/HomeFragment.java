@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -57,21 +58,25 @@ import java.util.Locale;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private final int MAX_NUMBER = 99;
+    private int notification_numbercount = 1;
+
+
     DatabaseHelper dbhelper;
     public static TextView tvjabatanuser, tvnamauser;
     ImageView sensusphtpage, analisdaunpage, sampledaunpage;
     TabLayout tabLayout;
     ListView lvfragment, lvhistory;
-    ConstraintLayout clkendala;
     ImageView imagepemanen, imgdropkendala, imgcamkendala;
     byte[] gambar2, gambar, gambar1;
-    ImageView imageselesai;
+    ImageView imageselesai, openDrawerBtn, imgMiniProfile;
     AutoCompleteTextView ackendala, aclokasikendala;
+    TextView tvSystemNameFragmentHome, tvNotifCounter;
     EditText etdesckendala, etpanjangkendala, etlebarkendala, etluaskendala, filtertglhistory;
     Button btnsimpankendala, btnrefresh;
     String lat_awal, long_awal, savedate;
     ScrollView scrollkendala;
-    ConstraintLayout clRiwayatFragment;
+    ConstraintLayout clRiwayatFragment, clBgMainActivity;
 
     private List<String> lables;
     private ArrayAdapter<String> dataAdapter;
@@ -83,16 +88,20 @@ public class HomeFragment extends Fragment {
         dbhelper = new DatabaseHelper(getContext());
 
         tvnamauser = root.findViewById(R.id.tvNamaUser);
+        tvSystemNameFragmentHome = root.findViewById(R.id.systemNameFragmentHome);
+        clBgMainActivity = root.findViewById(R.id.clBgMainActivity);
         tvjabatanuser = root.findViewById(R.id.tvJabatanUser);
         sensusphtpage = root.findViewById(R.id.sensusphtpage);
         analisdaunpage = root.findViewById(R.id.pageanalisdaun);
+        imgMiniProfile = root.findViewById(R.id.imgMiniProfile);
+        tvNotifCounter = root.findViewById(R.id.tvNotifCounter);
         sampledaunpage = root.findViewById(R.id.pagesampledaun);
         tabLayout = root.findViewById(R.id.tabLayout);
+        openDrawerBtn = root.findViewById(R.id.openDrawerBtn);
         scrollkendala = root.findViewById(R.id.scrollViewKendala);
         lvfragment = root.findViewById(R.id.lvfragment);
         btnrefresh = root.findViewById(R.id.btnRefreshHome);
         lvhistory = root.findViewById(R.id.lvHistoryTransaksi);
-        clkendala = root.findViewById(R.id.clkendalafragmenthome);
         ackendala = root.findViewById(R.id.autoCompleteTextView39);
         imgdropkendala = root.findViewById(R.id.imageView56);
         etdesckendala = root.findViewById(R.id.etdesckendala);
@@ -108,8 +117,21 @@ public class HomeFragment extends Fragment {
 
         String savedate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         filtertglhistory.setText(savedate);
+        tvnamauser.setText(dbhelper.get_tbl_username(0));
+        tvjabatanuser.setText(dbhelper.get_tbl_username(3));
 
         savedate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+
+        preparedUserAppData("theme");
+        preparedUserAppData("sysname");
+        preparedUserAppData("bgcolor");
+
+        openDrawerBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).openDrawer();
+            }
+        });
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -118,19 +140,16 @@ public class HomeFragment extends Fragment {
                     case 0:
                         lvfragment.setVisibility(View.VISIBLE);
                         clRiwayatFragment.setVisibility(View.GONE);
-                        clkendala.setVisibility(View.GONE);
                         scrollkendala.setVisibility(View.GONE);
                         break;
                     case 1:
                         clRiwayatFragment.setVisibility(View.VISIBLE);
                         lvfragment.setVisibility(View.GONE);
-                        clkendala.setVisibility(View.GONE);
                         scrollkendala.setVisibility(View.GONE);
                         break;
                     case 2:
                         clRiwayatFragment.setVisibility(View.GONE);
                         lvfragment.setVisibility(View.GONE);
-                        clkendala.setVisibility(View.VISIBLE);
                         scrollkendala.setVisibility(View.VISIBLE);
                         break;
                 }
@@ -177,19 +196,19 @@ public class HomeFragment extends Fragment {
         btnsimpankendala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ackendala.getText().toString().equals("")){
+                if (ackendala.getText().toString().equals("")) {
                     Toast.makeText(getContext(),"Harap Pilih Kendala",
                             Toast.LENGTH_SHORT).show();
                 }
-                else if(etdesckendala.getText().toString().equals("")){
+                else if (etdesckendala.getText().toString().equals("")) {
                     Toast.makeText(getContext(),"Harap Isi Deskripsi Kendala",
                             Toast.LENGTH_SHORT).show();
                 }
-                else if(aclokasikendala.getText().toString().equals("")){
+                else if (aclokasikendala.getText().toString().equals("")) {
                     Toast.makeText(getContext(),"Harap Isi Lokasi Kendala",
                             Toast.LENGTH_SHORT).show();
                 }
-                else if(imgcamkendala.getDrawable()==null){
+                else if (imgcamkendala.getDrawable()==null) {
                     Toast.makeText(getContext(),"Harap Ambil Gambar Kendala",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -214,13 +233,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        try {
-            tvnamauser.setText(dbhelper.get_tbl_username(0));
-            tvjabatanuser.setText(dbhelper.get_tbl_username(3));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        tvSystemNameFragmentHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                increaseNumberNotif();
+            }
+        });
 
         return root;
     }
@@ -238,7 +256,7 @@ public class HomeFragment extends Fragment {
                 filtertglhistory.setText(dateFormatter.format(newDate.getTime()));
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
@@ -256,6 +274,42 @@ public class HomeFragment extends Fragment {
             imgcamkendala.setImageBitmap(compressedBitmap);
             imgcamkendala.setBackground(null);
         }
+    }
+
+    private void preparedUserAppData(String predefinedData) {
+        if (predefinedData.equals("theme")) {
+            try {
+                openDrawerBtn.setColorFilter(Color.parseColor(dbhelper.get_tbl_username(26)));
+                imgMiniProfile.setColorFilter(Color.parseColor(dbhelper.get_tbl_username(26)));
+                tvSystemNameFragmentHome.setTextColor(Color.parseColor(dbhelper.get_tbl_username(26)));
+                btnsimpankendala.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(dbhelper.get_tbl_username(26))));
+                btnrefresh.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(dbhelper.get_tbl_username(26))));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (predefinedData.equals("sysname")) {
+            try {
+                tvSystemNameFragmentHome.setText(dbhelper.get_tbl_username(25));
+            } catch (Exception e) {
+                e.printStackTrace();
+                tvSystemNameFragmentHome.setText("NAMA SYSTEM");
+            }
+        }
+
+        if (predefinedData.equals("bgcolor")) {
+            try {
+                clBgMainActivity.setBackgroundColor(Color.parseColor(dbhelper.get_tbl_username(29)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void increaseNumberNotif() {
+        notification_numbercount++;
+        tvNotifCounter.setText(String.valueOf(notification_numbercount));
     }
 
     private void getLocation() {

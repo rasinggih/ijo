@@ -13,10 +13,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -47,6 +51,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -105,7 +110,7 @@ public class Activity_Login extends AppCompatActivity {
     ImageView imgphoto, imglogo, imgbackground, imgtakephotoreg, imagedialog;
 
     //Inisialisasi TextView
-    TextView tv_lupasandi, tv_hapususername, tvpass, tvversion, tvusername, tvlogo, tvnamasystem;
+    TextView tv_lupasandi, tv_hapususername, tvpass, tvversion, tvusername, tvlogo, tvnamasystem, tvLoginHeader, logoOrang;
 
     //Inisialisasi Dialog
     Dialog dialogregistrasi, dialoglupasandi, dialog, dialoggambar;
@@ -124,7 +129,6 @@ public class Activity_Login extends AppCompatActivity {
         //Inisialisasi DatabaseHelper
         dbhelper        = new DatabaseHelper(this);
         String str = getResources().getString(R.string.app_name);
-        str = "tes";
 
         //Inisialisasi Edittext
         et_password     = findViewById(R.id.et_password);
@@ -133,6 +137,8 @@ public class Activity_Login extends AppCompatActivity {
         btnlogin        = findViewById(R.id.btnlogin);
 
         //Inisialisasi TextView
+        tvLoginHeader   = findViewById(R.id.textView4);
+        logoOrang       = findViewById(R.id.textView3);
         tv_lupasandi    = findViewById(R.id.txt_lupasandi);
         tv_hapususername= findViewById(R.id.txt_lupasandi2);
         tvpass          = findViewById(R.id.tv_pass3);
@@ -141,11 +147,6 @@ public class Activity_Login extends AppCompatActivity {
         tvlogo          = findViewById(R.id.textView6);
         tvnamasystem    = findViewById(R.id.textView2);
 
-        //Inisialisasi ImageView
-
-        // blob1 = photo profil
-        // blob2 = logo
-        // blob3 = background
         imgphoto        = findViewById(R.id.myPict2);
         imglogo         = findViewById(R.id.myPict);
         imgbackground   = findViewById(R.id.imageView2);
@@ -159,10 +160,10 @@ public class Activity_Login extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_progress);
-        ProgressBar text        =  dialog.findViewById(R.id.progressBar);
-        TextView text2          = dialog.findViewById(R.id.textView271);
+        ProgressBar text = dialog.findViewById(R.id.progressBar);
+        TextView text2 = dialog.findViewById(R.id.textView271);
         text2.setVisibility(View.INVISIBLE);
-        ProgressBar progressBar =  dialog.findViewById(R.id.progressBar2);
+        ProgressBar progressBar = dialog.findViewById(R.id.progressBar2);
 
         //Inisialisasi Lupa Sandi
         dialoglupasandi             = new Dialog(this);
@@ -186,6 +187,7 @@ public class Activity_Login extends AppCompatActivity {
         EditText etregtelp          = (EditText)dialoglupasandi.findViewById(R.id.et_reg_telp);
         ConstraintLayout clsandi    = (ConstraintLayout)dialoglupasandi.findViewById(R.id.clsandi);
         ConstraintLayout clkode     = (ConstraintLayout)dialoglupasandi.findViewById(R.id. constraintLayout26);
+
         btnverifikasi.setText("DAPATKAN KODE");
         v_tvpassdlg     = "OFF";
         v_tvpassdlg2    = "OFF";
@@ -199,7 +201,7 @@ public class Activity_Login extends AppCompatActivity {
         btnlppasssave.setVisibility(View.INVISIBLE);
 
         //Inisialisasi Dialog Registrasi
-        dialogregistrasi    = new Dialog(this);
+        dialogregistrasi = new Dialog(this);
         dialogregistrasi.setCanceledOnTouchOutside(false);
         dialogregistrasi.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogregistrasi.setContentView(R.layout.activity_frm_registrasi);
@@ -228,13 +230,15 @@ public class Activity_Login extends AppCompatActivity {
         ConstraintLayout clpass         = dialogregistrasi.findViewById(R.id.clpass);
         ConstraintLayout clkodereg      = dialogregistrasi.findViewById(R.id.constraintLayout12);
 
-
         //Inisialisasi Dialog Gambar
         dialoggambar                 = new Dialog(this);
         dialoggambar.setContentView(R.layout.dialog_gambar);
-        imagedialog         = dialoggambar.findViewById(R.id.imageView47);
-        TextView tvnik      = dialoggambar.findViewById(R.id.textView13);
-        TextView tvnama     = dialoggambar.findViewById(R.id.textView14);
+        imagedialog         = dialoggambar.findViewById(R.id.imgDlgFotoUser);
+        TextView tvnik      = dialoggambar.findViewById(R.id.tvNikDlgShowImg);
+        TextView tvnama     = dialoggambar.findViewById(R.id.tvNamaDlgShowImg);
+        tvnik.setText(dbhelper.get_tbl_username(3));
+        tvnama.setText(dbhelper.get_tbl_username(5));
+
         //Inisialisasi Fungsi Edittext
         etkodeverifikasi.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         etkodeverifikasireg.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
@@ -243,7 +247,27 @@ public class Activity_Login extends AppCompatActivity {
 
         generate_version();
 
+        //UbahTema
+        try {
+            btnlogin.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(dbhelper.get_tbl_username(26))));
+            tvLoginHeader.setTextColor(Color.parseColor(dbhelper.get_tbl_username(26)));
+            tv_lupasandi.setTextColor(Color.parseColor(dbhelper.get_tbl_username(26)));
+            tv_hapususername.setTextColor(Color.parseColor(dbhelper.get_tbl_username(26)));
+            tvusername.setTextColor(Color.parseColor(dbhelper.get_tbl_username(26)));
+            logoOrang.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(dbhelper.get_tbl_username(26))));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                et_password.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor(dbhelper.get_tbl_username(26))));
+            }
 
+            if (Build.VERSION.SDK_INT >= 21) {
+                Window statusbar = getWindow();
+                statusbar.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                statusbar.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                statusbar.setStatusBarColor(Color.parseColor(dbhelper.get_tbl_username(26)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (!dbhelper.get_count_tbl_username().equals("0")) {
             tvusername.setText(dbhelper.get_tbl_username(0));
@@ -255,13 +279,12 @@ public class Activity_Login extends AppCompatActivity {
             tvversion.setVisibility(View.VISIBLE);
             et_password.setVisibility(View.VISIBLE);
 
-            try{
+            try {
                 tvnamasystem.setText(dbhelper.get_tbl_username(25));
             } catch (Exception e) {
                 e.printStackTrace();
                 tvnamasystem.setText("NAMA SYSTEM");
             }
-
 
             // Menampilkan Photo Profile
             try {
@@ -280,8 +303,6 @@ public class Activity_Login extends AppCompatActivity {
                         imagedialog.setImageBitmap(compressedBitmap);
                         imagedialog.setBackground(null);
                         imagedialog.setVisibility(View.VISIBLE);
-                        tvnik.setText(dbhelper.get_tbl_username(3));
-                        tvnama.setText(dbhelper.get_tbl_username(5));
                         imagedialog.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -346,11 +367,12 @@ public class Activity_Login extends AppCompatActivity {
         });
 
         try {
-            if ((ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             || (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                    || (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) ) {
+                    || (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS ) != PackageManager.PERMISSION_GRANTED)
+                    || (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE ) != PackageManager.PERMISSION_GRANTED)) {
                 // Should we show an explanation?
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
 
                     // You can show your dialog message here but instead I am
                     // showing the grant permission dialog box
@@ -358,23 +380,23 @@ public class Activity_Login extends AppCompatActivity {
                                     Manifest.permission.ACCESS_FINE_LOCATION,
                                     Manifest.permission.ACCESS_COARSE_LOCATION,
                                     Manifest.permission.CAMERA,
+                                    Manifest.permission.READ_PHONE_STATE,
                                     Manifest.permission.SEND_SMS},
                             10);
 
                 }
-                else{
+                else {
                     //Requesting permission
                     ActivityCompat.requestPermissions(this, new String[] {
                                     Manifest.permission.ACCESS_FINE_LOCATION,
                                     Manifest.permission.ACCESS_COARSE_LOCATION,
                                     Manifest.permission.CAMERA,
-                                    Manifest.permission.SEND_SMS},
+                                    Manifest.permission.SEND_SMS,
+                                    Manifest.permission.READ_PHONE_STATE},
                                     10);
 
                 }
             }
-
-
 
 //            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
 //            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
@@ -383,6 +405,7 @@ public class Activity_Login extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         tvpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -411,7 +434,7 @@ public class Activity_Login extends AppCompatActivity {
                 etregnikreg.requestFocus();
 
                 //EVENT DATA USERNAME MASIH KOSONG
-                if(btnlogin.getText().toString().equals("REGISTRASI")){
+                if (btnlogin.getText().toString().equals("REGISTRASI")) {
                     v_dlg_title = "Proses Registrasi Memerlukan Koneksi Internet dan Pulsa SMS\n\n " +
                             "Pastikan Koneksi Internet Anda Baik dan Memiliki Pulsa SMS untuk Melakukan Permintaan Registrasi." +
                             "\n\nApakah Anda Yakin Akan Melanjutkan?";
@@ -422,10 +445,10 @@ public class Activity_Login extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             if(btnverifikasireg.getText().toString().equals("DAPATKAN KODE")){
-                                if(TextUtils.isEmpty(etregnikreg.getText())){
+                                if (TextUtils.isEmpty(etregnikreg.getText())) {
                                     etregnikreg.setError("Harap Isi NIK");
                                 }
-                                else if(TextUtils.isEmpty(etregtelpreg.getText())){
+                                else if (TextUtils.isEmpty(etregtelpreg.getText())) {
                                     etregtelpreg.setError("Harap Isi No. Telp");
                                 }
                                 else {
@@ -462,7 +485,7 @@ public class Activity_Login extends AppCompatActivity {
                                                                 }
 
 //                                                                    if(return_koneksi.equals("VALID")){
-                                                                else{
+                                                                else {
                                                                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                                                                     JSONObject postData = new JSONObject();
 
@@ -517,8 +540,7 @@ public class Activity_Login extends AppCompatActivity {
                                     //    Toast.makeText(getApplicationContext(), "Verifikasi kode berhasil.", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            else{
-
+                            else {
                                 pDialog.setMessage("Silahkan Menunggu...");
                                 pDialog.setCancelable(false);
                                 pDialog.show();
@@ -531,80 +553,75 @@ public class Activity_Login extends AppCompatActivity {
 
                                         final String requestBody = jsonBody.toString();
                                         StringRequest stringRequest = new StringRequest(Request.Method.GET, url_data,
-                                                new Response.Listener<String>() {
-                                                    @Override
-                                                    public void onResponse(String response) {
-                                                        try {
-                                                            JSONObject jsonPost = new JSONObject(response.toString());
-                                                            return_koneksi = jsonPost.getString("VERIFICATIONCODE");
+                                            new Response.Listener<String>() {
+                                                @Override
+                                                public void onResponse(String response) {
+                                                    try {
+                                                        JSONObject jsonPost = new JSONObject(response.toString());
+                                                        return_koneksi = jsonPost.getString("VERIFICATIONCODE");
 
-                                                            if(return_koneksi.equals(etkodeverifikasireg.getText().toString())){
-                                                                clpass.setVisibility(View.VISIBLE);
-                                                                btnverifikasireg.setEnabled(false);
-                                                                clkodereg.setVisibility(View.GONE);
-                                                                btnverifikasireg.setVisibility(View.GONE);
-                                                                btnverifikasi2reg.setEnabled(false);
-                                                                btnverifikasi2reg.setVisibility(View.GONE);
-                                                                etkodeverifikasireg.setEnabled(false);
-                                                                etregtelpreg.setEnabled(false);
-                                                                etregnikreg.setEnabled(false);
-                                                                tvregusername.setVisibility(View.VISIBLE);
-                                                                tvregpass.setVisibility(View.VISIBLE);
-                                                                tvregpass2.setVisibility(View.VISIBLE);
-                                                                tvpassreg.setVisibility(View.VISIBLE);
-                                                                tvpass2.setVisibility(View.VISIBLE);
-                                                                etregusername.setVisibility(View.VISIBLE);
-                                                                etregpass.setVisibility(View.VISIBLE);
-                                                                etregpass2.setVisibility(View.VISIBLE);
-                                                                btnregsave.setVisibility(View.VISIBLE);
-                                                                btnregsave.setText("PERMINTAAN REGISTRASI");
-                                                            }
-                                                            else{
-                                                                v_dlg_title = "Kode Verifikasi Tidak Valid";
-                                                                v_dlg_btn1 = "OK";
-                                                                dialogHelper.showDialogInfo();
-                                                            }
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
+                                                        if (return_koneksi.equals(etkodeverifikasireg.getText().toString())) {
+                                                            clpass.setVisibility(View.VISIBLE);
+                                                            btnverifikasireg.setEnabled(false);
+                                                            clkodereg.setVisibility(View.GONE);
+                                                            btnverifikasireg.setVisibility(View.GONE);
+                                                            btnverifikasi2reg.setEnabled(false);
+                                                            btnverifikasi2reg.setVisibility(View.GONE);
+                                                            etkodeverifikasireg.setEnabled(false);
+                                                            etregtelpreg.setEnabled(false);
+                                                            etregnikreg.setEnabled(false);
+                                                            tvregusername.setVisibility(View.VISIBLE);
+                                                            tvregpass.setVisibility(View.VISIBLE);
+                                                            tvregpass2.setVisibility(View.VISIBLE);
+                                                            tvpassreg.setVisibility(View.VISIBLE);
+                                                            tvpass2.setVisibility(View.VISIBLE);
+                                                            etregusername.setVisibility(View.VISIBLE);
+                                                            etregpass.setVisibility(View.VISIBLE);
+                                                            etregpass2.setVisibility(View.VISIBLE);
+                                                            btnregsave.setVisibility(View.VISIBLE);
+                                                            btnregsave.setText("PERMINTAAN REGISTRASI");
                                                         }
-
+                                                        else {
+                                                            v_dlg_title = "Kode Verifikasi Tidak Valid";
+                                                            v_dlg_btn1 = "OK";
+                                                            dialogHelper.showDialogInfo();
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
                                                     }
-                                                }, new Response.ErrorListener() {
 
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                return_koneksi = "";
-                                                v_dlg_title = "Harap Periksa Jaringan Internet Anda";
-                                                v_dlg_btn1 = "OK";
-                                                dialogHelper.showDialogInfo();
-                                            }
-                                        });
+                                                }
+                                            }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    return_koneksi = "";
+                                                    v_dlg_title = "Harap Periksa Jaringan Internet Anda";
+                                                    v_dlg_btn1 = "OK";
+                                                    dialogHelper.showDialogInfo();
+                                                }
+                                            });
                                         queue.add(stringRequest);
                                         pDialog.dismiss();
                                         handler.removeCallbacks(this);
                                     }
                                 }, 1000);
-
-
                             }
                         }
                     });
 
-
-//
                     btnverifikasi2reg.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             btnverifikasi2reg.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    if(TextUtils.isEmpty(etregnikreg.getText())){
+                                    if (TextUtils.isEmpty(etregnikreg.getText())) {
                                         etregnikreg.setError("Harap Isi NIK");
                                     }
-                                    else if(TextUtils.isEmpty(etregtelpreg.getText())){
+                                    else if (TextUtils.isEmpty(etregtelpreg.getText())) {
                                         etregtelpreg.setError("Harap Isi No. Telp");
                                     }
-                                    else if(TextUtils.isEmpty(etkodeverifikasireg.getText())){
+                                    else if (TextUtils.isEmpty(etkodeverifikasireg.getText())) {
                                         etkodeverifikasireg.setError("Harap Kode Registrasi");
                                     }
                                     else {
@@ -621,104 +638,103 @@ public class Activity_Login extends AppCompatActivity {
 
                                                 final String requestBody = jsonBody.toString();
                                                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url_data,
-                                                        new Response.Listener<String>() {
-                                                            @Override
-                                                            public void onResponse(String response) {
-                                                                try {
-                                                                    JSONObject jsonPost = new JSONObject(response.toString());
-                                                                    return_koneksi = jsonPost.getString("DT_STATUS");
-                                                                    if (Objects.equals(return_koneksi, "NOT_EMP")) {
-                                                                        v_dlg_title = "NIK tidak terdaftar atau tidak aktif, " +
-                                                                                "silahkan hubungi HRD/Personalia dan silahkan ulangi.";
-                                                                        v_dlg_btn1 = "OK";
-                                                                        dialogHelper.showDialogInfo();
-                                                                    } else if (Objects.equals(return_koneksi, "NOT_TELP")) {
-                                                                        v_dlg_title = "Nomor Telepon Tidak Sesuai, " +
-                                                                                "silahkan hubungi HRD/Personalia dan silahkan ulangi.";
-                                                                        v_dlg_btn1 = "OK";
-                                                                        dialogHelper.showDialogInfo();
-                                                                    }
+                                                    new Response.Listener<String>() {
+                                                        @Override
+                                                        public void onResponse(String response) {
+                                                            try {
+                                                                JSONObject jsonPost = new JSONObject(response.toString());
+                                                                return_koneksi = jsonPost.getString("DT_STATUS");
+                                                                if (Objects.equals(return_koneksi, "NOT_EMP")) {
+                                                                    v_dlg_title = "NIK tidak terdaftar atau tidak aktif, " +
+                                                                            "silahkan hubungi HRD/Personalia dan silahkan ulangi.";
+                                                                    v_dlg_btn1 = "OK";
+                                                                    dialogHelper.showDialogInfo();
+                                                                } else if (Objects.equals(return_koneksi, "NOT_TELP")) {
+                                                                    v_dlg_title = "Nomor Telepon Tidak Sesuai, " +
+                                                                            "silahkan hubungi HRD/Personalia dan silahkan ulangi.";
+                                                                    v_dlg_btn1 = "OK";
+                                                                    dialogHelper.showDialogInfo();
+                                                                }
 
 //                                                                    if(return_koneksi.equals("VALID")){
-                                                                    else{
-                                                                        etregusername.setText("");
-                                                                        etregpass.setText("");
-                                                                        etregpass2.setText("");
-                                                                        imgtakephotoreg.setImageDrawable(null);
-                                                                        imgtakephotoreg.setBackgroundResource(R.drawable.ic_baseline_add_photo_100);
-                                                                        url_data = "https://ntcorp.co.id/dsi/get_verificationcode.php?p_notelp="+etregtelpreg.getText().toString();
-                                                                        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                                                                        JSONObject jsonBody = new JSONObject();
+                                                                else{
+                                                                    etregusername.setText("");
+                                                                    etregpass.setText("");
+                                                                    etregpass2.setText("");
+                                                                    imgtakephotoreg.setImageDrawable(null);
+                                                                    imgtakephotoreg.setBackgroundResource(R.drawable.ic_baseline_add_photo_100);
+                                                                    url_data = "https://ntcorp.co.id/dsi/get_verificationcode.php?p_notelp="+etregtelpreg.getText().toString();
+                                                                    RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                                                                    JSONObject jsonBody = new JSONObject();
 
-                                                                        final String requestBody = jsonBody.toString();
-                                                                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url_data,
-                                                                                new Response.Listener<String>() {
-                                                                                    @Override
-                                                                                    public void onResponse(String response) {
-                                                                                        try {
-                                                                                            JSONObject jsonPost = new JSONObject(response.toString());
-                                                                                            return_koneksi = jsonPost.getString("VERIFICATIONCODE");
+                                                                    final String requestBody = jsonBody.toString();
+                                                                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url_data,
+                                                                            new Response.Listener<String>() {
+                                                                                @Override
+                                                                                public void onResponse(String response) {
+                                                                                    try {
+                                                                                        JSONObject jsonPost = new JSONObject(response.toString());
+                                                                                        return_koneksi = jsonPost.getString("VERIFICATIONCODE");
 
-                                                                                            if(return_koneksi == null){
-                                                                                                v_dlg_title = "Harap Lakukan Permintaan Kode Verifikasi";
+                                                                                        if(return_koneksi == null){
+                                                                                            v_dlg_title = "Harap Lakukan Permintaan Kode Verifikasi";
+                                                                                            v_dlg_btn1 = "OK";
+                                                                                            dialogHelper.showDialogInfo();
+                                                                                        }
+                                                                                        else {
+                                                                                            if (return_koneksi.equals(etkodeverifikasireg.getText().toString())) {
+                                                                                                clpass.setVisibility(View.VISIBLE);
+                                                                                                clkodereg.setVisibility(View.GONE);
+                                                                                                btnverifikasireg.setVisibility(View.GONE);
+                                                                                                btnverifikasi2reg.setVisibility(View.GONE);
+                                                                                                etkodeverifikasireg.setEnabled(false);
+                                                                                                etregtelpreg.setEnabled(false);
+                                                                                                etregnikreg.setEnabled(false);
+                                                                                                tvregusername.setVisibility(View.VISIBLE);
+                                                                                                tvregpass.setVisibility(View.VISIBLE);
+                                                                                                tvregpass2.setVisibility(View.VISIBLE);
+                                                                                                tvpassreg.setVisibility(View.VISIBLE);
+                                                                                                tvpass2.setVisibility(View.VISIBLE);
+                                                                                                etregusername.setVisibility(View.VISIBLE);
+                                                                                                etregpass.setVisibility(View.VISIBLE);
+                                                                                                etregpass2.setVisibility(View.VISIBLE);
+                                                                                                btnregsave.setVisibility(View.VISIBLE);
+                                                                                                btnregsave.setText("PERMINTAAN REGISTRASI");
+                                                                                            } else {
+                                                                                                v_dlg_title = "Kode Verifikasi Tidak Valid";
                                                                                                 v_dlg_btn1 = "OK";
                                                                                                 dialogHelper.showDialogInfo();
                                                                                             }
-                                                                                            else {
-                                                                                                if (return_koneksi.equals(etkodeverifikasireg.getText().toString())) {
-                                                                                                    clpass.setVisibility(View.VISIBLE);
-                                                                                                    clkodereg.setVisibility(View.GONE);
-                                                                                                    btnverifikasireg.setVisibility(View.GONE);
-                                                                                                    btnverifikasi2reg.setVisibility(View.GONE);
-                                                                                                    etkodeverifikasireg.setEnabled(false);
-                                                                                                    etregtelpreg.setEnabled(false);
-                                                                                                    etregnikreg.setEnabled(false);
-                                                                                                    tvregusername.setVisibility(View.VISIBLE);
-                                                                                                    tvregpass.setVisibility(View.VISIBLE);
-                                                                                                    tvregpass2.setVisibility(View.VISIBLE);
-                                                                                                    tvpassreg.setVisibility(View.VISIBLE);
-                                                                                                    tvpass2.setVisibility(View.VISIBLE);
-                                                                                                    etregusername.setVisibility(View.VISIBLE);
-                                                                                                    etregpass.setVisibility(View.VISIBLE);
-                                                                                                    etregpass2.setVisibility(View.VISIBLE);
-                                                                                                    btnregsave.setVisibility(View.VISIBLE);
-                                                                                                    btnregsave.setText("PERMINTAAN REGISTRASI");
-                                                                                                } else {
-                                                                                                    v_dlg_title = "Kode Verifikasi Tidak Valid";
-                                                                                                    v_dlg_btn1 = "OK";
-                                                                                                    dialogHelper.showDialogInfo();
-                                                                                                }
-                                                                                            }
-                                                                                        } catch (JSONException e) {
-                                                                                            e.printStackTrace();
                                                                                         }
-
+                                                                                    } catch (JSONException e) {
+                                                                                        e.printStackTrace();
                                                                                     }
-                                                                                }, new Response.ErrorListener() {
 
-                                                                            @Override
-                                                                            public void onErrorResponse(VolleyError error) {
-                                                                                return_koneksi = "";
-                                                                                v_dlg_title = "Harap Periksa Jaringan Internet Anda";
-                                                                                v_dlg_btn1 = "OK";
-                                                                                dialogHelper.showDialogInfo();
-                                                                            }
-                                                                        });
-                                                                        queue.add(stringRequest);
-                                                                    }
+                                                                                }
+                                                                            }, new Response.ErrorListener() {
+
+                                                                        @Override
+                                                                        public void onErrorResponse(VolleyError error) {
+                                                                            return_koneksi = "";
+                                                                            v_dlg_title = "Harap Periksa Jaringan Internet Anda";
+                                                                            v_dlg_btn1 = "OK";
+                                                                            dialogHelper.showDialogInfo();
+                                                                        }
+                                                                    });
+                                                                    queue.add(stringRequest);
+                                                                }
 //                                                                                else{
 //                                                                                    v_dlg_title = "NIK/No.Telp tidak terdaftar atau tidak aktif, " +
 //                                                                                            "silahkan hubungi HRD/Personalia dan silahkan ulangi.";
 //                                                                                    v_dlg_btn1 = "OK";
 //                                                                                    dialogHelper.showDialogInfo();
 //                                                                                }
-                                                                } catch (JSONException e) {
-                                                                    e.printStackTrace();
-                                                                }
-
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
                                                             }
-                                                        }, new Response.ErrorListener() {
 
+                                                        }
+                                                    }, new Response.ErrorListener() {
                                                     @Override
                                                     public void onErrorResponse(VolleyError error) {
                                                         return_koneksi = "";
@@ -732,10 +748,6 @@ public class Activity_Login extends AppCompatActivity {
                                                 handler.removeCallbacks(this);
                                             }
                                         }, 1000);
-
-
-
-                                        //  Toast.makeText(getApplicationContext(), "Verifikasi kode berhasil.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -850,15 +862,15 @@ public class Activity_Login extends AppCompatActivity {
                                     @RequiresApi(api = Build.VERSION_CODES.M)
                                     @Override
                                     public void onClick(View v) {
-                                        if(TextUtils.isEmpty(etregusername.getText())){
+                                        if (TextUtils.isEmpty(etregusername.getText())) {
                                             etregusername.setError("Harap Isi Username");
                                         }
-                                        else if(TextUtils.isEmpty(etregpass.getText())){
+                                        else if (TextUtils.isEmpty(etregpass.getText())) {
                                             etregpass.setError("Kata Sandi Tidak Boleh Kosong");
                                             etregpass.requestFocus();
                                         }
-                                        else{
-                                            if(!etregpass.getText().toString().equals(etregpass2.getText().toString())){
+                                        else {
+                                            if (!etregpass.getText().toString().equals(etregpass2.getText().toString())) {
                                                 v_dlg_title = "Kata Sandi Tidak Sama, Silahkan Ulangi";
                                                 v_dlg_btn1 = "OK";
                                                 dialogHelper.showDialogInfo();
@@ -891,7 +903,6 @@ public class Activity_Login extends AppCompatActivity {
                                         }
                                     }
                                 });
-
                             }
                         }
                     }, 500);
@@ -904,12 +915,12 @@ public class Activity_Login extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if(!dbhelper.get_tbl_username(1).equals(v_password_input)) {
+                    if (!dbhelper.get_tbl_username(1).equals(v_password_input)) {
                         v_dlg_title = "Kata Sandi Salah, Silahkan Ulangi";
                         v_dlg_btn1 = "OK";
                         dialogHelper.showDialogInfo();
                     }
-                    else{
+                    else {
                         Intent intent = new Intent(Activity_Login.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -1018,8 +1029,6 @@ public class Activity_Login extends AppCompatActivity {
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-
-
                                                 url_data = "https://ntcorp.co.id/dsi/empstatus.php?p_empcode=" + etregnik.getText().toString()
                                                         + "&p_notelp=" + etregtelp.getText().toString();
                                                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -1046,7 +1055,7 @@ public class Activity_Login extends AppCompatActivity {
                                                                     }
 
 //                                                                    if(return_koneksi.equals("VALID")){
-                                                                    else{
+                                                                    else {
                                                                         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                                                                         JSONObject postData = new JSONObject();
 
@@ -1106,13 +1115,13 @@ public class Activity_Login extends AppCompatActivity {
                             btnverifikasi2.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    if(TextUtils.isEmpty(etregnik.getText())){
+                                    if (TextUtils.isEmpty(etregnik.getText())) {
                                         etregnik.setError("Harap Isi NIK");
                                     }
-                                    else if(TextUtils.isEmpty(etregtelp.getText())){
+                                    else if (TextUtils.isEmpty(etregtelp.getText())) {
                                         etregtelp.setError("Harap Isi No. Telp");
                                     }
-                                    else if(TextUtils.isEmpty(etkodeverifikasi.getText())){
+                                    else if (TextUtils.isEmpty(etkodeverifikasi.getText())) {
                                         etkodeverifikasi.setError("Harap Kode Registrasi");
                                     }
                                     else {
@@ -1129,117 +1138,113 @@ public class Activity_Login extends AppCompatActivity {
 
                                                 final String requestBody = jsonBody.toString();
                                                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url_data,
-                                                        new Response.Listener<String>() {
-                                                            @Override
-                                                            public void onResponse(String response) {
-                                                                try {
-                                                                    JSONObject jsonPost = new JSONObject(response.toString());
-                                                                    return_koneksi = jsonPost.getString("DT_STATUS");
+                                                    new Response.Listener<String>() {
+                                                        @Override
+                                                        public void onResponse(String response) {
+                                                            try {
+                                                                JSONObject jsonPost = new JSONObject(response.toString());
+                                                                return_koneksi = jsonPost.getString("DT_STATUS");
 
-                                                                    if (Objects.equals(return_koneksi, "NOT_EMP")) {
-                                                                        v_dlg_title = "NIK tidak terdaftar atau tidak aktif, " +
-                                                                                "silahkan hubungi HRD/Personalia dan silahkan ulangi.";
-                                                                        v_dlg_btn1 = "OK";
-                                                                        dialogHelper.showDialogInfo();
-                                                                    } else if (Objects.equals(return_koneksi, "NOT_TELP")) {
-                                                                        v_dlg_title = "Nomor Telepon Tidak Sesuai, " +
-                                                                                "silahkan hubungi HRD/Personalia dan silahkan ulangi.";
-                                                                        v_dlg_btn1 = "OK";
-                                                                        dialogHelper.showDialogInfo();
-                                                                    }
+                                                                if (Objects.equals(return_koneksi, "NOT_EMP")) {
+                                                                    v_dlg_title = "NIK tidak terdaftar atau tidak aktif, " +
+                                                                            "silahkan hubungi HRD/Personalia dan silahkan ulangi.";
+                                                                    v_dlg_btn1 = "OK";
+                                                                    dialogHelper.showDialogInfo();
+                                                                } else if (Objects.equals(return_koneksi, "NOT_TELP")) {
+                                                                    v_dlg_title = "Nomor Telepon Tidak Sesuai, " +
+                                                                            "silahkan hubungi HRD/Personalia dan silahkan ulangi.";
+                                                                    v_dlg_btn1 = "OK";
+                                                                    dialogHelper.showDialogInfo();
+                                                                }
 
 //                                                                    if(return_koneksi.equals("VALID")){
-                                                                    else{
-                                                                        url_data = "https://ntcorp.co.id/dsi/get_verificationcode.php?p_notelp="+etregtelp.getText().toString();
-                                                                        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                                                                        JSONObject jsonBody = new JSONObject();
+                                                                else{
+                                                                    url_data = "https://ntcorp.co.id/dsi/get_verificationcode.php?p_notelp="+etregtelp.getText().toString();
+                                                                    RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                                                                    JSONObject jsonBody = new JSONObject();
 
-                                                                        final String requestBody = jsonBody.toString();
-                                                                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url_data,
-                                                                                new Response.Listener<String>() {
-                                                                                    @Override
-                                                                                    public void onResponse(String response) {
-                                                                                        try {
-                                                                                            JSONObject jsonPost = new JSONObject(response.toString());
-                                                                                            return_koneksi = jsonPost.getString("VERIFICATIONCODE");
+                                                                    final String requestBody = jsonBody.toString();
+                                                                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url_data,
+                                                                            new Response.Listener<String>() {
+                                                                                @Override
+                                                                                public void onResponse(String response) {
+                                                                                    try {
+                                                                                        JSONObject jsonPost = new JSONObject(response.toString());
+                                                                                        return_koneksi = jsonPost.getString("VERIFICATIONCODE");
 
-                                                                                            if(return_koneksi == null){
-                                                                                                v_dlg_title = "Harap Lakukan Permintaan Kode Verifikasi";
+                                                                                        if(return_koneksi == null){
+                                                                                            v_dlg_title = "Harap Lakukan Permintaan Kode Verifikasi";
+                                                                                            v_dlg_btn1 = "OK";
+                                                                                            dialogHelper.showDialogInfo();
+                                                                                        }
+                                                                                        else {
+                                                                                            if (return_koneksi.equals(etkodeverifikasi.getText().toString())) {
+                                                                                                etregnik.setEnabled(false);
+                                                                                                etregtelp.setEnabled(false);
+                                                                                                btnverifikasi.setVisibility(View.GONE);
+                                                                                                btnverifikasi2.setVisibility(View.GONE);
+                                                                                                clsandi.setVisibility(View.VISIBLE);
+                                                                                                etkodeverifikasi.setEnabled(false);
+                                                                                                clkode.setVisibility(View.GONE);
+                                                                                                tvlppasspass.setVisibility(View.VISIBLE);
+                                                                                                tvlppasspass2.setVisibility(View.VISIBLE);
+                                                                                                tvpassdlg.setVisibility(View.VISIBLE);
+                                                                                                tvpassdlg2.setVisibility(View.VISIBLE);
+                                                                                                etlppasspass.setVisibility(View.VISIBLE);
+                                                                                                etlppasspass2.setVisibility(View.VISIBLE);
+                                                                                                btnlppasssave.setVisibility(View.VISIBLE);
+                                                                                                etkodeverifikasi.setText("");
+                                                                                                etlppasspass.setText("");
+                                                                                                etlppasspass2.setText("");
+
+                                                                                            } else {
+                                                                                                v_dlg_title = "Kode Verifikasi Tidak Valid";
                                                                                                 v_dlg_btn1 = "OK";
                                                                                                 dialogHelper.showDialogInfo();
                                                                                             }
-                                                                                            else {
-                                                                                                if (return_koneksi.equals(etkodeverifikasi.getText().toString())) {
-                                                                                                    etregnik.setEnabled(false);
-                                                                                                    etregtelp.setEnabled(false);
-                                                                                                    btnverifikasi.setVisibility(View.GONE);
-                                                                                                    btnverifikasi2.setVisibility(View.GONE);
-                                                                                                    clsandi.setVisibility(View.VISIBLE);
-                                                                                                    etkodeverifikasi.setEnabled(false);
-                                                                                                    clkode.setVisibility(View.GONE);
-                                                                                                    tvlppasspass.setVisibility(View.VISIBLE);
-                                                                                                    tvlppasspass2.setVisibility(View.VISIBLE);
-                                                                                                    tvpassdlg.setVisibility(View.VISIBLE);
-                                                                                                    tvpassdlg2.setVisibility(View.VISIBLE);
-                                                                                                    etlppasspass.setVisibility(View.VISIBLE);
-                                                                                                    etlppasspass2.setVisibility(View.VISIBLE);
-                                                                                                    btnlppasssave.setVisibility(View.VISIBLE);
-                                                                                                    etkodeverifikasi.setText("");
-                                                                                                    etlppasspass.setText("");
-                                                                                                    etlppasspass2.setText("");
-
-                                                                                                } else {
-                                                                                                    v_dlg_title = "Kode Verifikasi Tidak Valid";
-                                                                                                    v_dlg_btn1 = "OK";
-                                                                                                    dialogHelper.showDialogInfo();
-                                                                                                }
-                                                                                            }
-                                                                                        } catch (JSONException e) {
-                                                                                            e.printStackTrace();
                                                                                         }
-
+                                                                                    } catch (JSONException e) {
+                                                                                        e.printStackTrace();
                                                                                     }
-                                                                                }, new Response.ErrorListener() {
 
-                                                                            @Override
-                                                                            public void onErrorResponse(VolleyError error) {
-                                                                                return_koneksi = "";
-                                                                                v_dlg_title = "Harap Periksa Jaringan Internet Anda";
-                                                                                v_dlg_btn1 = "OK";
-                                                                                dialogHelper.showDialogInfo();
-                                                                            }
-                                                                        });
-                                                                        queue.add(stringRequest);
-                                                                    }
+                                                                                }
+                                                                            }, new Response.ErrorListener() {
+
+                                                                        @Override
+                                                                        public void onErrorResponse(VolleyError error) {
+                                                                            return_koneksi = "";
+                                                                            v_dlg_title = "Harap Periksa Jaringan Internet Anda";
+                                                                            v_dlg_btn1 = "OK";
+                                                                            dialogHelper.showDialogInfo();
+                                                                        }
+                                                                    });
+                                                                    queue.add(stringRequest);
+                                                                }
 //                                                                    else{
 //                                                                        v_dlg_title = "NIK/No.Telp tidak terdaftar atau tidak aktif, " +
 //                                                                                "silahkan hubungi HRD/Personalia dan silahkan ulangi.";
 //                                                                        v_dlg_btn1 = "OK";
 //                                                                        dialogHelper.showDialogInfo();
 //                                                                    }
-                                                                } catch (JSONException e) {
-                                                                    e.printStackTrace();
-                                                                }
-
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
                                                             }
-                                                        }, new Response.ErrorListener() {
 
-                                                    @Override
-                                                    public void onErrorResponse(VolleyError error) {
-                                                        return_koneksi = "";
-                                                        v_dlg_title = "Harap Periksa Jaringan Internet Anda";
-                                                        v_dlg_btn1 = "OK";
-                                                        dialogHelper.showDialogInfo();
-                                                    }
-                                                });
+                                                        }
+                                                    }, new Response.ErrorListener() {
+                                                        @Override
+                                                        public void onErrorResponse(VolleyError error) {
+                                                            return_koneksi = "";
+                                                            v_dlg_title = "Harap Periksa Jaringan Internet Anda";
+                                                            v_dlg_btn1 = "OK";
+                                                            dialogHelper.showDialogInfo();
+                                                        }
+                                                    });
                                                 queue.add(stringRequest);
                                                 pDialog.dismiss();
                                                 handler.removeCallbacks(this);
                                             }
                                         }, 1000);
-
-
-
                                         //  Toast.makeText(getApplicationContext(), "Verifikasi kode berhasil.", Toast.LENGTH_SHORT).show();
                                     }
 
@@ -1310,7 +1315,6 @@ public class Activity_Login extends AppCompatActivity {
                                     }
                                 }
                             });
-
                         }
                     }
                 }, 500);
@@ -1328,7 +1332,7 @@ public class Activity_Login extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(v_data_proses == 1){
+        if (v_data_proses == 1) {
             if (resultCode == RESULT_OK) {
                 try {
                     final Uri imageUri = data.getData();
@@ -1341,7 +1345,7 @@ public class Activity_Login extends AppCompatActivity {
                     selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
                     gambar = stream1.toByteArray();
                     imagedialog.setEnabled(true);
-                    if(gambar.length>500000){
+                    if (gambar.length>500000) {
                         v_dlg_title = "Ukuran Gambar Max 2MB";
                         v_dlg_btn1 = "OK";
                         dialogHelper.showDialogInfo();
@@ -1350,18 +1354,15 @@ public class Activity_Login extends AppCompatActivity {
                         imgtakephotoreg.setBackground(getApplicationContext().getDrawable(R.drawable.border_dialog));
                         //imgtakephotoreg.setForeground(getApplicationContext().getDrawable(R.drawable.take_image));
                     }
-                    else{
+                    else {
                         imgtakephotoreg.setBackground(null);
                         //imgtakephotoreg.setForeground(null);
                         imgtakephotoreg.setImageBitmap(selectedImage);
-
                     }
-
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
                 }
-
             }
         }
 
@@ -1372,7 +1373,7 @@ public class Activity_Login extends AppCompatActivity {
                     if (resultCode == RESULT_OK) {
                         InputStream iStream =   getContentResolver().openInputStream(result.getUri());
                         gambar = getBytes(iStream);
-                        if(gambar.length>2000000){
+                        if (gambar.length > 2000000) {
                             v_dlg_title = "Ukuran Gambar Terlalu Besar";
                             v_dlg_btn1 = "OK";
                             dialogHelper.showDialogInfo();
@@ -1551,7 +1552,6 @@ public class Activity_Login extends AppCompatActivity {
         ae.execute();
     }
 
-
     public void sendSMS(String phoneNumber, String message)
     {
         String SENT = "SMS_SENT";
@@ -1623,7 +1623,8 @@ public class Activity_Login extends AppCompatActivity {
                 Manifest.permission.CAMERA,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE)
                 .setCallback((PermissionCallback) this)
                 .setErrorCallback((ErrorCallback) this)
                 .request(REQUEST_PERMISSIONS);

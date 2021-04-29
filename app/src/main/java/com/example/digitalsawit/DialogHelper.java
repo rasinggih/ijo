@@ -3,8 +3,10 @@ package com.example.digitalsawit;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.View;
@@ -107,8 +109,12 @@ public class DialogHelper extends Dialog {
         tvtitle = dialog.findViewById(R.id.tv_dlg2_title);
         tvjuduldialog = dialog.findViewById(R.id.textView43);
         imgdialog     = dialog.findViewById(R.id.imageView14);
+
         try {
-            if(dbhelper.get_tbl_username(25).equals("0")){
+            btn_ok.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(dbhelper.get_tbl_username(26))));
+            btn_no.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(dbhelper.get_tbl_username(26))));
+            tvjuduldialog.setTextColor(Color.parseColor(dbhelper.get_tbl_username(26)));
+            if (dbhelper.get_tbl_username(25).equals("0")){
                 tvjuduldialog.setText("NAMA SYSTEM");
             }
             else {
@@ -171,27 +177,23 @@ public class DialogHelper extends Dialog {
         //Inisialisasi Object
         dialog.setContentView(R.layout.dialog_info);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        btn_ok = dialog.findViewById(R.id.btn_dlg4_ok);
-        tvtitle = dialog.findViewById(R.id.tv_dlg4_title);
-        tvjuduldialog = dialog.findViewById(R.id.textView43);
-        imgdialog     = dialog.findViewById(R.id.imageView14);
+        btn_ok = dialog.findViewById(R.id.btnDialogInfo);
+        tvtitle = dialog.findViewById(R.id.tvDlgInfoTitle);
+        tvjuduldialog = dialog.findViewById(R.id.tvSystemNameDlgInfo);
+        imgdialog = dialog.findViewById(R.id.imgLogoDlgInfo);
+
         try {
-            if(dbhelper.get_tbl_username(25).equals("0")){
-                tvjuduldialog.setText("NAMA SYSTEM");
-            }
-            else {
-                tvjuduldialog.setText(dbhelper.get_tbl_username(25));
-            }
+            btn_ok.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(dbhelper.get_tbl_username(26))));
+            tvjuduldialog.setTextColor(Color.parseColor(dbhelper.get_tbl_username(26)));
+            tvjuduldialog.setText(dbhelper.get_tbl_username(25));
+
         } catch (Exception e) {
             e.printStackTrace();
-            tvjuduldialog.setText("NAMA SYSTEM");
         }
-
 
         try {
             Bitmap compressedBitmap = BitmapFactory.decodeByteArray(dbhelper.get_gambar_user(1), 0, dbhelper.get_gambar_user(1).length);
             imgdialog.setImageBitmap(compressedBitmap);
-            //imgphoto.setForeground(null);
         } catch (Exception e) {
             e.printStackTrace();
         }

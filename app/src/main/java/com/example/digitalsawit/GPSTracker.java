@@ -22,6 +22,7 @@ public class GPSTracker extends Service implements LocationListener{
 
     Location location;
     double latitude,longitude;
+    Long timegps;
 
     LocationManager locationManager;
     AlertDialogManager am = new AlertDialogManager();
@@ -103,6 +104,13 @@ public class GPSTracker extends Service implements LocationListener{
         }
 
         return latitude;
+    }
+
+    public long getElapsedRealtimeNanos(){
+        if (location != null){
+            timegps = location.getElapsedRealtimeNanos();
+        }
+        return timegps;
     }
 
     public double getLongitude(){

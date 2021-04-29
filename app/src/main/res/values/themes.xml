@@ -11,6 +11,7 @@
     </style>
 
     <style name="Theme.DigitalSawit.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:statusBarColor" tools:targetApi="l">#305031</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
