@@ -2,14 +2,11 @@ package com.example.digitalsawit.ui.home;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputFilter;
@@ -28,28 +25,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.digitalsawit.DatabaseHelper;
-import com.example.digitalsawit.GPSTracker;
-import com.example.digitalsawit.Activity_Login;
-import com.example.digitalsawit.MainActivity;
 import com.example.digitalsawit.R;
+import com.fxn.BubbleTabBar;
+import com.fxn.OnBubbleClickListener;
 import com.google.android.material.tabs.TabLayout;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -66,6 +54,7 @@ public class HomeFragment extends Fragment {
     public static TextView tvjabatanuser, tvnamauser;
     ImageView sensusphtpage, analisdaunpage, sampledaunpage;
     TabLayout tabLayout;
+    BubbleTabBar bubbleTabBar;
     ListView lvfragment, lvhistory;
     ImageView imagepemanen, imgdropkendala, imgcamkendala;
     byte[] gambar2, gambar, gambar1;
@@ -97,6 +86,7 @@ public class HomeFragment extends Fragment {
         tvNotifCounter = root.findViewById(R.id.tvNotifCounter);
         sampledaunpage = root.findViewById(R.id.pagesampledaun);
         tabLayout = root.findViewById(R.id.tabLayout);
+        bubbleTabBar = root.findViewById(R.id.bubbleTabBar);
         openDrawerBtn = root.findViewById(R.id.openDrawerBtn);
         scrollkendala = root.findViewById(R.id.scrollViewKendala);
         lvfragment = root.findViewById(R.id.lvfragment);
@@ -192,6 +182,32 @@ public class HomeFragment extends Fragment {
                 datepicker();
             }
         });
+
+        bubbleTabBar.addBubbleListener(new OnBubbleClickListener() {
+            @Override
+            public void onBubbleClick(int id) {
+                switch (id) {
+                    case R.id.homefragment:
+                        lvfragment.setVisibility(View.VISIBLE);
+                        clRiwayatFragment.setVisibility(View.GONE);
+                        scrollkendala.setVisibility(View.GONE);
+                        break;
+                    case R.id.log:
+                        clRiwayatFragment.setVisibility(View.VISIBLE);
+                        lvfragment.setVisibility(View.GONE);
+                        scrollkendala.setVisibility(View.GONE);
+                        break;
+                    case R.id.feedback:
+                        clRiwayatFragment.setVisibility(View.GONE);
+                        lvfragment.setVisibility(View.GONE);
+                        scrollkendala.setVisibility(View.VISIBLE);
+                        break;
+                }
+
+            }
+        });
+
+
 
         btnsimpankendala.setOnClickListener(new View.OnClickListener() {
             @Override
